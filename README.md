@@ -15,6 +15,17 @@ following libraries:
 - Latest available working versions of [`pip`], [`setuptools`] and [`wheel`].
 - Latest available working versions of [`numpy`] and [`scipy`].
 
+Below there is a summary table with the preinstalled packages:
+
+| Version    | Py2.6  | Py2.7  | Py3.2  | Py3.3  | Py3.4  | Py3.5+  |
+|------------|--------|--------|--------|--------|--------|---------|
+| pip        | <10    | <45    | <7.1.1 | <18    | <20    | <21     |
+| setuptools | <37    | <45    | <30    | <40    | <44    | <50     |
+| wheel      | <0.36  | <0.36  | <0.32  | <0.36  | <0.36  | <0.36   |
+| numpy      | <1.12  | <1.19  | <1.12  | <1.12  | <1.19  | <1.19   |
+| scipy      | <0.18  | <2.0   | <0.18  | <1.0   | <2.0   | <2.0    |
+
+
 ## Installation
 
 1. Install [Docker](https://www.docker.com/).

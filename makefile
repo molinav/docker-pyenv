@@ -13,3 +13,22 @@ build:
 	    echo "Building $$tag...";                                         \
             docker build -q --tag "$$tag" . --build-arg version="$(version)"; \
         fi
+
+
+publish:
+
+	@if [ "$(version)" = "all" ]; then                                    \
+            for v in $(ALL); do                                               \
+                make publish version="$$v";                                   \
+            done                                                              \
+	else                                                                  \
+            pyab=$$(echo $(version) | cut -d. -f1,2);                         \
+	    tag="ubuntu-pyenv:$$pyab";                                        \
+	    id=$$(docker images -q $$tag);                                    \
+	    user=$$(docker info 2>/dev/null | sed -n '/[ ]*Username:/p'       \
+	            | rev | cut -d' ' -f1 | rev);                             \
+	    repotag=$$user/$$tag;                                             \
+	    echo "Publishing $$repotag... $$id";                              \
+	    docker tag "$$id" "$$repotag";                                    \
+	    docker push "$$repotag";                                          \
+        fi

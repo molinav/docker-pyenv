@@ -145,17 +145,17 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
     echo "Upgrading pip..."                                                 &&\
     . /etc/profile                                                          &&\
     if [ $py26 -eq 0 ]; then                                                  \
-        pip install --no-cache-dir --force-reinstall "pip<10"                 \
+        pip install --no-cache-dir --upgrade "pip<10"                         \
     ; elif [ $py27 -eq 0 ]; then                                              \
-        pip install --no-cache-dir --force-reinstall "pip<45"                 \
+        pip install --no-cache-dir --upgrade "pip<45"                         \
     ; elif [ $py32 -eq 0 ]; then                                              \
-        pip install --no-cache-dir --force-reinstall "pip<7.1.1"              \
+        pip install --no-cache-dir --upgrade "pip<7.1.1"                      \
     ; elif [ $py33 -eq 0 ]; then                                              \
-        pip install --no-cache-dir --force-reinstall "pip<18"                 \
+        pip install --no-cache-dir --upgrade "pip<18"                         \
     ; elif [ $py34 -eq 0 ]; then                                              \
-        pip install --no-cache-dir --force-reinstall "pip<20"                 \
+        pip install --no-cache-dir --upgrade "pip<20"                         \
     ; elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then                               \
-        pip install --no-cache-dir --force-reinstall "pip<21"                 \
+        pip install --no-cache-dir --upgrade "pip<21"                         \
     ; fi                                                                    &&\
     if [ $py30 -eq 0 -o $py31 -eq 0 -o $py32 -eq 0 ]; then                    \
         pip install --no-cache-dir "wheel<0.32"                               \

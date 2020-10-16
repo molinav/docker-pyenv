@@ -147,7 +147,7 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
     if [ $py26 -eq 0 ]; then                                                  \
         pip install --no-cache-dir --upgrade "pip<10"                         \
     ; elif [ $py27 -eq 0 ]; then                                              \
-        pip install --no-cache-dir --upgrade "pip<45"                         \
+        pip install --no-cache-dir --upgrade "pip<21"                         \
     ; elif [ $py32 -eq 0 ]; then                                              \
         pip install --no-cache-dir --upgrade "pip<7.1.1"                      \
     ; elif [ $py33 -eq 0 ]; then                                              \

@@ -59,7 +59,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends              \
         libnetcdf15 libnetcdf-dev                                           &&\
     apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
-# Install OpenSSL 1.0.2 for Python < 3.5, != 2.7.
+# Install OpenSSL 1.1 and also OpenSSL 1.0.2 for Python < 3.5, != 2.7.
 RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
     py26=$(test "$pyab" = "2.6"; echo $?)                                   &&\
     py30=$(test "$pyab" = "3.0"; echo $?)                                   &&\
@@ -103,7 +103,12 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
         rm $openssl_targz                                                   &&\
         rm $openssl_patch                                                   &&\
         echo "Linking CA certificates..."                                   &&\
-        rmdir $openssl_ssl/certs && ln -s /etc/ssl/certs $openssl_ssl/certs   \
+        rmdir $openssl_ssl/certs && ln -s /etc/ssl/certs $openssl_ssl/certs &&\
+        echo "Configuring environment for OpenSSL 1.0.2..."                 &&\
+        rc2=/etc/profile.d/02-link-openssl.sh                               &&\
+        echo "# Add dynamic linking to OpenSSL." >> $rc2                    &&\
+        echo "export LD_LIBRARY_PATH=$openssl_dir/lib" >> $rc2              &&\
+        echo "" >> $rc2                                                       \
     ; fi
 
 # Download PyEnv.
@@ -123,16 +128,8 @@ RUN openssl_dir=$(find /opt -maxdepth 1 -type d -name "*ssl*" | head -n1)   &&\
         export LD_LIBRARY_PATH="$openssl_dir/lib"                             \
     ; fi                                                                    &&\
     eval "$(pyenv init -)"                                                  &&\
-    pyenv install "$version"
-
-# Set final environment.
-RUN openssl_dir=$(find /opt -maxdepth 1 -type d -name "*ssl*" | head -n1)   &&\
-    if [ "$openssl_dir" != "" ]; then                                         \
-        rc2=/etc/profile.d/02-link-openssl.sh                               &&\
-        echo "# Add dynamic linking to OpenSSL." >> $rc2                    &&\
-        echo "export LD_LIBRARY_PATH=$openssl_dir/lib" >> $rc2              &&\
-        echo "" >> $rc2                                                       \
-    ; fi                                                                    &&\
+    pyenv install "$version"                                                &&\
+    echo "Configuring environment for PyEnv..."                             &&\
     rc3=/etc/profile.d/03-set-pyenv.sh                                      &&\
     echo "# Enable PyEnv environment" >> $rc3                               &&\
     echo 'eval "$(pyenv init -)"' >> $rc3                                   &&\
@@ -169,7 +166,6 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
         pip install --no-cache-dir "wheel<0.36"                               \
     ; fi                                                                    &&\
     rm -rf $HOME/.cache/pip /tmp/*
-
 
 # Upgrade setuptools if possible.
 RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\

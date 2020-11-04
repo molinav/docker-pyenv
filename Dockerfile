@@ -98,6 +98,10 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
         rm -rf $openssl_name                                                &&\
         rm $openssl_targz                                                   &&\
         rm $openssl_patch                                                     \
+    ; else                                                                    \
+        apt-get update && apt-get install -y --no-install-recommends          \
+            openssl ca-certificates                                         &&\
+        apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*     \
     ; fi
 
 # Download PyEnv.

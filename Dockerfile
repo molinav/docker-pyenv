@@ -165,7 +165,8 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
         pip install --no-cache-dir "wheel<0.32"                               \
     ; else                                                                    \
         pip install --no-cache-dir "wheel<0.36"                               \
-    ; fi
+    ; fi                                                                    &&\
+    rm -rf $HOME/.cache/pip
 
 
 # Upgrade setuptools if possible.
@@ -191,7 +192,8 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
         pip install --no-cache-dir --upgrade "setuptools<44"                  \
     ; elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then                               \
         pip install --no-cache-dir --upgrade "setuptools<50"                  \
-    ; fi
+    ; fi                                                                    &&\
+    rm -rf $HOME/.cache/pip
 
 # Install NumPy.
 RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
@@ -208,7 +210,8 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
         pip install --no-cache-dir "numpy<1.12"                               \
     ; else                                                                    \
         pip install --no-cache-dir "numpy<1.19"                               \
-    ; fi
+    ; fi                                                                    &&\
+    rm -rf $HOME/.cache/pip
 
 # Install SciPy.
 RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
@@ -226,6 +229,7 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
         pip install --no-cache-dir "scipy<1.0"                                \
     ; else                                                                    \
         pip install --no-cache-dir "scipy<2.0"                                \
-    ; fi
+    ; fi                                                                    &&\
+    rm -rf $HOME/.cache/pip
 
 RUN echo "Done!"

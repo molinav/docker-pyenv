@@ -21,14 +21,22 @@ publish:
 	@if [ "$(version)" = "all" ]; then                                    \
             for v in $(ALL); do                                               \
                 make publish version="$$v";                                   \
-            done                                                              \
+            done;                                                             \
+	    make publish version=latest;                                      \
 	else                                                                  \
-            pyab=$$(echo $(version) | cut -d. -f1,2);                         \
-	    tag="ubuntu-pyenv:$$pyab";                                        \
-	    id=$$(docker images -q $$tag);                                    \
 	    user=$$(docker info 2>/dev/null | sed -n '/[ ]*Username:/p'       \
 	            | rev | cut -d' ' -f1 | rev);                             \
-	    repotag=$$user/$$tag;                                             \
+	    if [ "$(version)" = "latest" ]; then                              \
+                pyab=$$(echo $(ALL) | rev | cut -d' ' -f1 | rev               \
+		        | cut -d. -f1,2);                                     \
+	        tag="ubuntu-pyenv:$$pyab";                                    \
+	        repotag=$$user/ubuntu-pyenv:latest;                           \
+	    else                                                              \
+                pyab=$$(echo $(version) | cut -d. -f1,2);                     \
+	        tag="ubuntu-pyenv:$$pyab";                                    \
+	        repotag=$$user/$$tag;                                         \
+	    fi;                                                               \
+	    id=$$(docker images -q $$tag);                                    \
 	    echo "Publishing $$repotag... $$id";                              \
 	    docker tag "$$id" "$$repotag";                                    \
 	    docker push "$$repotag";                                          \

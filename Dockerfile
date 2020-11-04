@@ -166,7 +166,7 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
     ; else                                                                    \
         pip install --no-cache-dir "wheel<0.36"                               \
     ; fi                                                                    &&\
-    rm -rf $HOME/.cache/pip
+    rm -rf $HOME/.cache/pip /tmp/*
 
 
 # Upgrade setuptools if possible.
@@ -193,7 +193,7 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
     ; elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then                               \
         pip install --no-cache-dir --upgrade "setuptools<50"                  \
     ; fi                                                                    &&\
-    rm -rf $HOME/.cache/pip
+    rm -rf $HOME/.cache/pip /tmp/*
 
 # Install NumPy.
 RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
@@ -211,7 +211,7 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
     ; else                                                                    \
         pip install --no-cache-dir "numpy<1.19"                               \
     ; fi                                                                    &&\
-    rm -rf $HOME/.cache/pip
+    rm -rf $HOME/.cache/pip /tmp/*
 
 # Install SciPy.
 RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
@@ -230,6 +230,6 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
     ; else                                                                    \
         pip install --no-cache-dir "scipy<2.0"                                \
     ; fi                                                                    &&\
-    rm -rf $HOME/.cache/pip
+    rm -rf $HOME/.cache/pip /tmp/*
 
 RUN echo "Done!"

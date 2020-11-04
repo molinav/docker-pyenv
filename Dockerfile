@@ -117,7 +117,7 @@ ENV PATH=$PYENV_ROOT/bin:$PATH
 
 RUN wget -q https://github.com/pyenv/pyenv/archive/master.zip -O pyenv.zip  &&\
     unzip -q pyenv.zip pyenv-master/* && mv pyenv-master $PYENV_ROOT        &&\
-    rm pyenv.zip
+    rm -f pyenv.zip
 
 # Install and enable Python.
 RUN openssl_dir=$(find /opt -maxdepth 1 -type d -name "*ssl*" | head -n1)   &&\

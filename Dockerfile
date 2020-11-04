@@ -67,6 +67,9 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
     py32=$(test "$pyab" = "3.2"; echo $?)                                   &&\
     py33=$(test "$pyab" = "3.3"; echo $?)                                   &&\
     py34=$(test "$pyab" = "3.4"; echo $?)                                   &&\
+    apt-get update && apt-get install -y --no-install-recommends              \
+        openssl ca-certificates                                             &&\
+    apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*       &&\
     if [ $py26 -eq 0 -o $py30 -eq 0 -o $py31 -eq 0 -o                         \
          $py32 -eq 0 -o $py33 -eq 0 -o $py34 -eq 0 ]; then                    \
         cwd=$(pwd)                                                          &&\
@@ -76,6 +79,7 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
         openssl_dir=/opt/$openssl_name                                      &&\
         openssl_inc=$openssl_dir/include                                    &&\
         openssl_lib=$openssl_dir/lib                                        &&\
+        openssl_ssl=$openssl_dir/ssl                                        &&\
         echo "Downloading OpenSSL..."                                       &&\
         wget -q                                                               \
             https://www.openssl.org/source/$openssl_targz                   &&\
@@ -97,11 +101,9 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
         cd $cwd                                                             &&\
         rm -rf $openssl_name                                                &&\
         rm $openssl_targz                                                   &&\
-        rm $openssl_patch                                                     \
-    ; else                                                                    \
-        apt-get update && apt-get install -y --no-install-recommends          \
-            openssl ca-certificates                                         &&\
-        apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*     \
+        rm $openssl_patch                                                   &&\
+        echo "Linking CA certificates..."                                   &&\
+        rmdir $openssl_ssl/certs && ln -s /etc/ssl/certs $openssl_ssl/certs   \
     ; fi
 
 # Download PyEnv.

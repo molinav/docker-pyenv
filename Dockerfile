@@ -136,7 +136,7 @@ RUN openssl_dir=$(find /opt -maxdepth 1 -type d -name "*ssl*" | head -n1)   &&\
     echo "pyenv shell $version" >> $rc3                                     &&\
     echo "" >> $rc3
 
-# Upgrade pip if possible.
+# Upgrade pip, wheel and setuptools if possible.
 RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
     py26=$(test "$pyab" = "2.6"; echo $?)                                   &&\
     py27=$(test "$pyab" = "2.7"; echo $?)                                   &&\
@@ -145,88 +145,81 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
     py32=$(test "$pyab" = "3.2"; echo $?)                                   &&\
     py33=$(test "$pyab" = "3.3"; echo $?)                                   &&\
     py34=$(test "$pyab" = "3.4"; echo $?)                                   &&\
-    echo "Upgrading pip..."                                                 &&\
+    py35=$(test "$pyab" = "3.5"; echo $?)                                   &&\
+    echo "Upgrading pip, wheel and setuptools..."                           &&\
     . /etc/profile                                                          &&\
     if [ $py26 -eq 0 ]; then                                                  \
-        pip install --no-cache-dir --upgrade "pip<10"                         \
+        pip install --no-cache-dir --upgrade "pip < 10"                     &&\
+        pip install --no-cache-dir --upgrade "wheel < 0.30"                 &&\
+        pip install --no-cache-dir --upgrade "setuptools < 37"                \
     ; elif [ $py27 -eq 0 ]; then                                              \
-        pip install --no-cache-dir --upgrade "pip<21"                         \
+        pip install --no-cache-dir --upgrade "pip < 21"                     &&\
+        pip install --no-cache-dir --upgrade "wheel < 0.36"                 &&\
+        pip install --no-cache-dir --upgrade "setuptools < 45"                \
     ; elif [ $py32 -eq 0 ]; then                                              \
-        pip install --no-cache-dir --upgrade "pip<7.1.1"                      \
+        pip install --no-cache-dir --upgrade "pip < 7.1.1"                  &&\
+        pip install --no-cache-dir --upgrade "wheel < 0.32"                 &&\
+        pip install --no-cache-dir --upgrade "setuptools < 30"                \
     ; elif [ $py33 -eq 0 ]; then                                              \
-        pip install --no-cache-dir --upgrade "pip<18"                         \
+        pip install --no-cache-dir --upgrade "pip < 18"                     &&\
+        pip install --no-cache-dir --upgrade "wheel < 0.30"                 &&\
+        pip install --no-cache-dir --upgrade "setuptools < 40"                \
     ; elif [ $py34 -eq 0 ]; then                                              \
-        pip install --no-cache-dir --upgrade "pip<20"                         \
+        pip install --no-cache-dir --upgrade "pip < 20"                     &&\
+        pip install --no-cache-dir --upgrade "wheel < 0.34"                 &&\
+        pip install --no-cache-dir --upgrade "setuptools < 44"                \
     ; elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then                               \
-        pip install --no-cache-dir --upgrade "pip<21"                         \
-    ; fi                                                                    &&\
-    if [ $py30 -eq 0 -o $py31 -eq 0 -o $py32 -eq 0 ]; then                    \
-        pip install --no-cache-dir "wheel<0.32"                               \
-    ; else                                                                    \
-        pip install --no-cache-dir "wheel<0.36"                               \
-    ; fi                                                                    &&\
-    rm -rf $HOME/.cache/pip /tmp/*
-
-# Upgrade setuptools if possible.
-RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
-    py26=$(test "$pyab" = "2.6"; echo $?)                                   &&\
-    py27=$(test "$pyab" = "2.7"; echo $?)                                   &&\
-    py30=$(test "$pyab" = "3.0"; echo $?)                                   &&\
-    py31=$(test "$pyab" = "3.1"; echo $?)                                   &&\
-    py32=$(test "$pyab" = "3.2"; echo $?)                                   &&\
-    py33=$(test "$pyab" = "3.3"; echo $?)                                   &&\
-    py34=$(test "$pyab" = "3.4"; echo $?)                                   &&\
-    echo "Upgrading setuptools..."                                          &&\
-    . /etc/profile                                                          &&\
-    if [ $py26 -eq 0 ]; then                                                  \
-        pip install --no-cache-dir --upgrade "setuptools<37"                  \
-    ; elif [ $py27 -eq 0 ]; then                                              \
-        pip install --no-cache-dir --upgrade "setuptools<45"                  \
-    ; elif [ $py32 -eq 0 ]; then                                              \
-        pip install --no-cache-dir --upgrade "setuptools<30"                  \
-    ; elif [ $py33 -eq 0 ]; then                                              \
-        pip install --no-cache-dir --upgrade "setuptools<40"                  \
-    ; elif [ $py34 -eq 0 ]; then                                              \
-        pip install --no-cache-dir --upgrade "setuptools<44"                  \
-    ; elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then                               \
-        pip install --no-cache-dir --upgrade "setuptools<50"                  \
+        pip install --no-cache-dir --upgrade "pip < 21"                     &&\
+        pip install --no-cache-dir --upgrade "wheel < 0.36"                 &&\
+        pip install --no-cache-dir --upgrade "setuptools < 50"                \
     ; fi                                                                    &&\
     rm -rf $HOME/.cache/pip /tmp/*
 
 # Install NumPy.
 RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
     py26=$(test "$pyab" = "2.6"; echo $?)                                   &&\
+    py27=$(test "$pyab" = "2.7"; echo $?)                                   &&\
     py30=$(test "$pyab" = "3.0"; echo $?)                                   &&\
     py31=$(test "$pyab" = "3.1"; echo $?)                                   &&\
     py32=$(test "$pyab" = "3.2"; echo $?)                                   &&\
     py33=$(test "$pyab" = "3.3"; echo $?)                                   &&\
     py34=$(test "$pyab" = "3.4"; echo $?)                                   &&\
+    py35=$(test "$pyab" = "3.5"; echo $?)                                   &&\
     echo "Installing NumPy..."                                              &&\
     . /etc/profile                                                          &&\
-    if [ $py26 -eq 0 -o $py30 -eq 0 -o $py31 -eq 0 -o                         \
-         $py32 -eq 0 -o $py33 -eq 0 ]; then                                   \
-        pip install --no-cache-dir "numpy<1.12"                               \
-    ; else                                                                    \
-        pip install --no-cache-dir "numpy<1.19"                               \
+    if [ $py26 -eq 0 -o $py32 -eq 0 -o $py33 -eq 0 ]; then                    \
+        pip install --no-cache-dir "numpy < 1.12"                             \
+    ; elif [ $py27 -eq 0 -o $py34 -eq 0 ]; then                               \
+        pip install --no-cache-dir "numpy < 1.17"                             \
+    ; elif [ $py35 -eq 0 ]; then                                              \
+        pip install --no-cache-dir "numpy < 1.19"                             \
+    ; elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then                               \
+        pip install --no-cache-dir "numpy < 1.20"                             \
     ; fi                                                                    &&\
     rm -rf $HOME/.cache/pip /tmp/*
 
 # Install SciPy.
 RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
     py26=$(test "$pyab" = "2.6"; echo $?)                                   &&\
+    py27=$(test "$pyab" = "2.7"; echo $?)                                   &&\
     py30=$(test "$pyab" = "3.0"; echo $?)                                   &&\
     py31=$(test "$pyab" = "3.1"; echo $?)                                   &&\
     py32=$(test "$pyab" = "3.2"; echo $?)                                   &&\
     py33=$(test "$pyab" = "3.3"; echo $?)                                   &&\
     py34=$(test "$pyab" = "3.4"; echo $?)                                   &&\
+    py35=$(test "$pyab" = "3.5"; echo $?)                                   &&\
     echo "Installing SciPy..."                                              &&\
     . /etc/profile                                                          &&\
-    if [ $py26 -eq 0 -o $py30 -eq 0 -o $py31 -eq 0 -o $py32 -eq 0 ]; then     \
-        pip install --no-cache-dir "scipy<0.18"                               \
+    if [ $py26 -eq 0 -o $py32 -eq 0 ]; then                                   \
+        pip install --no-cache-dir "scipy < 0.18"                             \
     ; elif [ $py33 -eq 0 ]; then                                              \
-        pip install --no-cache-dir "scipy<1.0"                                \
-    ; else                                                                    \
-        pip install --no-cache-dir "scipy<2.0"                                \
+        pip install --no-cache-dir "scipy < 1.0"                              \
+    ; elif [ $py27 -eq 0 -o $py34 -eq 0 ]; then                               \
+        pip install --no-cache-dir "scipy < 1.3"                              \
+    ; elif [ $py35 -eq 0 ]; then                                              \
+        pip install --no-cache-dir "scipy < 1.5"                              \
+    ; elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then                               \
+        pip install --no-cache-dir "scipy < 1.6"                              \
     ; fi                                                                    &&\
     rm -rf $HOME/.cache/pip /tmp/*
 

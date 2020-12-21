@@ -15,6 +15,8 @@ py34=$(test "$pyab" = "3.4"; echo $?)
 py35=$(test "$pyab" = "3.5"; echo $?)
 
 if [ $py26 -eq 0 -o $py32 -eq 0 -o $py33 -eq 0 ]; then
+    # NumPy < 1.12 needs `xlocale.h`.
+    ln -s /usr/include/locale.h /usr/include/xlocale.h
     pip install --no-cache-dir "numpy < 1.12"
 ; elif [ $py27 -eq 0 -o $py34 -eq 0 ]; then
     pip install --no-cache-dir "numpy < 1.17"

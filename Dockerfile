@@ -34,9 +34,6 @@ ENV LC_ALL=C.UTF-8
 ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Add symbolic link required for NumPy < 1.12.
-RUN ln -s /usr/include/locale.h /usr/include/xlocale.h
-
 # Copy helper scripts.
 COPY scripts /home/scripts
 

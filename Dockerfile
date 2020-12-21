@@ -50,10 +50,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends              \
         libffi-dev xz-utils zlib1g-dev libbz2-dev liblzma-dev               &&\
     apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
-# Install GCC/GFortran compilers and BLAS/LAPACK.
-RUN apt-get update && apt-get install -y --no-install-recommends              \
-        gcc gfortran libblas3 libblas-dev liblapack3 liblapack-dev          &&\
-    apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
+# Install GCC/GFortran compilers.
+RUN sh /home/scripts/install_compilers.sh
+
+# Install BLAS/LAPACK.
+RUN sh /home/scripts/install_lapack.sh
 
 # Add system libraries for HDF4/HDF5/NetCDF4.
 RUN apt-get update && apt-get install -y --no-install-recommends              \

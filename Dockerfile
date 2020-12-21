@@ -51,7 +51,7 @@ RUN sh /home/scripts/install_netcdf.sh
 # Install PyEnv dependencies.
 RUN sh /home/scripts/install_pyenv_build_lib.sh
 
-# Install OpenSSL 1.1 and also OpenSSL 1.0.2 for Python < 3.5, != 2.7.
+# Install OpenSSL 1.0.2 for Python < 3.5, != 2.7.
 RUN sh /home/scripts/install_openssl.sh $version
 
 # Install Python through PyEnv.

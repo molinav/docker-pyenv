@@ -68,5 +68,7 @@ RUN sh /home/scripts/install_python_numpy.sh $version
 # Install SciPy.
 RUN sh /home/scripts/install_python_scipy.sh $version
 
+# Launch the bash shell with the default profile.
+RUN rm -rf /home/scripts
 RUN echo "Done!"
 CMD ["bash", "-l"]

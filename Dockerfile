@@ -43,13 +43,6 @@ COPY scripts /home/scripts
 # Install basic dependencies.
 RUN sh /home/scripts/install_base.sh
 
-# Install PyEnv dependencies (essentials but curl due to certificate issues).
-RUN apt-get update && apt-get install -y --no-install-recommends              \
-        build-essential git llvm libssl-dev tk-dev                            \
-        libncursesw5-dev libreadline-dev libsqlite3-dev                       \
-        libffi-dev xz-utils zlib1g-dev libbz2-dev liblzma-dev               &&\
-    apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
-
 # Install GCC/GFortran compilers.
 RUN sh /home/scripts/install_compilers.sh
 
@@ -58,6 +51,9 @@ RUN sh /home/scripts/install_lapack.sh
 
 # Add system libraries for HDF4/HDF5/NetCDF4.
 RUN sh /home/scripts/install_netcdf.sh
+
+# Install PyEnv dependencies.
+RUN sh /home/scripts/install_pyenv_build_lib.sh
 
 # Install OpenSSL 1.1 and also OpenSSL 1.0.2 for Python < 3.5, != 2.7.
 RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\

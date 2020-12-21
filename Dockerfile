@@ -1,6 +1,5 @@
-#! /bin/bash
 #
-# Copyright (c) 2020 Víctor Molina García
+# Copyright (C) 2020 Víctor Molina García
 # MIT License
 #
 # Dockerfile to create Ubuntu containers with a minimal installation of

@@ -40,7 +40,7 @@ Below there is a summary table with the preinstalled packages:
 ## Usage
 
 ```sh
-docker run --rm -it molinav/ubuntu-pyenv bash -l
+docker run --rm -it molinav/ubuntu-pyenv
 ```
 
 If not running interactively, you must configure the shell manually by calling

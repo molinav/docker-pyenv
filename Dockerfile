@@ -101,30 +101,10 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
         echo "" >> $rc2                                                       \
     ; fi
 
-# Download PyEnv.
+# Install Python through PyEnv.
 ENV PYENV_ROOT=/usr/local/share/pyenv
 ENV PATH=$PYENV_ROOT/bin:$PATH
-
-RUN wget -q https://github.com/pyenv/pyenv/archive/master.zip -O pyenv.zip  &&\
-    unzip -q pyenv.zip pyenv-master/* && mv pyenv-master $PYENV_ROOT        &&\
-    rm -f pyenv.zip
-
-# Install and enable Python.
-RUN openssl_dir=$(find /opt -maxdepth 1 -type d -name "*ssl*" | head -n1)   &&\
-    echo "Installing Python $version..."                                    &&\
-    if [ "$openssl_dir" != "" ]; then                                         \
-        export CFLAGS="-I$openssl_dir/include"                              &&\
-        export LDFLAGS="-L$openssl_dir/lib"                                 &&\
-        export LD_LIBRARY_PATH="$openssl_dir/lib"                             \
-    ; fi                                                                    &&\
-    eval "$(pyenv init -)"                                                  &&\
-    pyenv install "$version"                                                &&\
-    echo "Configuring environment for PyEnv..."                             &&\
-    rc3=/etc/profile.d/03-set-pyenv.sh                                      &&\
-    echo "# Enable PyEnv environment" >> $rc3                               &&\
-    echo 'eval "$(pyenv init -)"' >> $rc3                                   &&\
-    echo "pyenv shell $version" >> $rc3                                     &&\
-    echo "" >> $rc3
+RUN sh /home/scripts/install_pyenv_python.sh $version
 
 # Upgrade pip, wheel and setuptools if possible.
 RUN sh /home/scripts/install_python_base.sh $version

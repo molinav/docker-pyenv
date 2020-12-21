@@ -1,6 +1,6 @@
 #! /bin/sh
 
-version=$1
+version="$1"
 
 # Download PyEnv.
 wget -q https://github.com/pyenv/pyenv/archive/master.zip -O pyenv.zip

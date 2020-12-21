@@ -2,7 +2,7 @@
 
 . /etc/profile
 
-version=$1
+version="$1"
 pyab=$(echo "$version" | cut -d. -f1,2)
 py26=$(test "$pyab" = "2.6"; echo $?)
 py27=$(test "$pyab" = "2.7"; echo $?)

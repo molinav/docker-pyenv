@@ -1,6 +1,6 @@
 #! /bin/sh
 
-version=$1
+version="$1"
 pyab=$(echo "$version" | cut -d. -f1,2)
 py26=$(test "$pyab" = "2.6"; echo $?)
 py30=$(test "$pyab" = "3.0"; echo $?)

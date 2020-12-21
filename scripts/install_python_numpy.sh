@@ -1,6 +1,5 @@
 #! /bin/sh
 
-set -e
 . /etc/profile
 
 version=$1

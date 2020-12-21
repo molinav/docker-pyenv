@@ -29,7 +29,9 @@ RUN echo "Building Docker container for Python $version..."
 
 # Set basic info.
 ENV LANG=C.UTF-8
-ENV TZ=Europe/Berlin
+ENV LANGUAGE=C.UTF-8
+ENV LC_ALL=C.UTF-8
+ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Add symbolic link required for NumPy < 1.12.

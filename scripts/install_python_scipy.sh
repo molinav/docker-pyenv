@@ -15,14 +15,14 @@ py35=$(test "$pyab" = "3.5"; echo $?)
 
 if [ $py26 -eq 0 -o $py32 -eq 0 ]; then
     pip install --no-cache-dir "scipy < 0.18"
-; elif [ $py33 -eq 0 ]; then
+elif [ $py33 -eq 0 ]; then
     pip install --no-cache-dir "scipy < 1.0"
-; elif [ $py27 -eq 0 -o $py34 -eq 0 ]; then
+elif [ $py27 -eq 0 -o $py34 -eq 0 ]; then
     pip install --no-cache-dir "scipy < 1.3"
-; elif [ $py35 -eq 0 ]; then
+elif [ $py35 -eq 0 ]; then
     pip install --no-cache-dir "scipy < 1.5"
-; elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then
+elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then
     pip install --no-cache-dir "scipy < 1.6"
-; fi
+fi
 
 rm -rf $HOME/.cache/pip /tmp/*

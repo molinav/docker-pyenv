@@ -17,12 +17,12 @@ if [ $py26 -eq 0 -o $py32 -eq 0 -o $py33 -eq 0 ]; then
     # NumPy < 1.12 needs `xlocale.h`.
     ln -s /usr/include/locale.h /usr/include/xlocale.h
     pip install --no-cache-dir "numpy < 1.12"
-; elif [ $py27 -eq 0 -o $py34 -eq 0 ]; then
+elif [ $py27 -eq 0 -o $py34 -eq 0 ]; then
     pip install --no-cache-dir "numpy < 1.17"
-; elif [ $py35 -eq 0 ]; then
+elif [ $py35 -eq 0 ]; then
     pip install --no-cache-dir "numpy < 1.19"
-; elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then
+elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then
     pip install --no-cache-dir "numpy < 1.20"
-; fi
+fi
 
 rm -rf $HOME/.cache/pip /tmp/*

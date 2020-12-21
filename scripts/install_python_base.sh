@@ -17,26 +17,26 @@ if [ $py26 -eq 0 ]; then
     pip install --no-cache-dir --upgrade "pip < 10"
     pip install --no-cache-dir --upgrade "wheel < 0.30"
     pip install --no-cache-dir --upgrade "setuptools < 37"
-; elif [ $py27 -eq 0 ]; then
+elif [ $py27 -eq 0 ]; then
     pip install --no-cache-dir --upgrade "pip < 21"
     pip install --no-cache-dir --upgrade "wheel < 0.36"
     pip install --no-cache-dir --upgrade "setuptools < 45"
-; elif [ $py32 -eq 0 ]; then
+elif [ $py32 -eq 0 ]; then
     pip install --no-cache-dir --upgrade "pip < 7.1.1"
     pip install --no-cache-dir --upgrade "wheel < 0.32"
     pip install --no-cache-dir --upgrade "setuptools < 30"
-; elif [ $py33 -eq 0 ]; then
+elif [ $py33 -eq 0 ]; then
     pip install --no-cache-dir --upgrade "pip < 18"
     pip install --no-cache-dir --upgrade "wheel < 0.30"
     pip install --no-cache-dir --upgrade "setuptools < 40"
-; elif [ $py34 -eq 0 ]; then
+elif [ $py34 -eq 0 ]; then
     pip install --no-cache-dir --upgrade "pip < 20"
     pip install --no-cache-dir --upgrade "wheel < 0.34"
     pip install --no-cache-dir --upgrade "setuptools < 44"
-; elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then
+elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then
     pip install --no-cache-dir --upgrade "pip < 21"
     pip install --no-cache-dir --upgrade "wheel < 0.36"
     pip install --no-cache-dir --upgrade "setuptools < 50"
-; fi
+fi
 
 rm -rf $HOME/.cache/pip /tmp/*

@@ -19,7 +19,7 @@
 #
 # A live interactive session can be launched afterwards by typing:
 #
-#     docker run --name py38-live --rm -it ubuntu-pyenv-3.8.4 bash -l
+#     docker run --name py38-live --rm -it ubuntu-pyenv-3.8.4
 #
 
 FROM ubuntu:20.04
@@ -115,3 +115,4 @@ RUN sh /home/scripts/install_python_numpy.sh $version
 RUN sh /home/scripts/install_python_scipy.sh $version
 
 RUN echo "Done!"
+CMD ["bash", "-l"]

@@ -37,11 +37,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Add symbolic link required for NumPy < 1.12.
 RUN ln -s /usr/include/locale.h /usr/include/xlocale.h
 
+# Copy helper scripts.
+COPY scripts /home/scripts
+
 # Install basic dependencies.
-RUN apt-get update && apt-get install -y --no-install-recommends              \
-        wget zip unzip                                                      &&\
-    apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*       &&\
-    echo "check_certificate = off" >> ~/.wgetrc
+RUN sh /home/scripts/install_base.sh
 
 # Install PyEnv dependencies (essentials but curl due to certificate issues).
 RUN apt-get update && apt-get install -y --no-install-recommends              \

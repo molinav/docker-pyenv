@@ -57,10 +57,7 @@ RUN sh /home/scripts/install_compilers.sh
 RUN sh /home/scripts/install_lapack.sh
 
 # Add system libraries for HDF4/HDF5/NetCDF4.
-RUN apt-get update && apt-get install -y --no-install-recommends              \
-        libhdf4-0 libhdf4-dev libhdf5-103 libhdf5-dev                         \
-        libnetcdf15 libnetcdf-dev                                           &&\
-    apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
+RUN sh /home/scripts/install_netcdf.sh
 
 # Install OpenSSL 1.1 and also OpenSSL 1.0.2 for Python < 3.5, != 2.7.
 RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\

@@ -63,9 +63,6 @@ RUN pyab=$(echo "$version" | cut -d. -f1,2)                                 &&\
     py32=$(test "$pyab" = "3.2"; echo $?)                                   &&\
     py33=$(test "$pyab" = "3.3"; echo $?)                                   &&\
     py34=$(test "$pyab" = "3.4"; echo $?)                                   &&\
-    apt-get update && apt-get install -y --no-install-recommends              \
-        openssl ca-certificates                                             &&\
-    apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*       &&\
     if [ $py26 -eq 0 -o $py30 -eq 0 -o $py31 -eq 0 -o                         \
          $py32 -eq 0 -o $py33 -eq 0 -o $py34 -eq 0 ]; then                    \
         cwd=$(pwd)                                                          &&\

@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2020 Víctor Molina García
+# Copyright (C) 2020-2021 Víctor Molina García
 # MIT License
 #
 # Dockerfile to create Ubuntu containers with a minimal installation of
@@ -67,6 +67,9 @@ RUN sh /home/scripts/install_python_numpy.sh $version
 
 # Install SciPy.
 RUN sh /home/scripts/install_python_scipy.sh $version
+
+# Install Cython.
+RUN sh /home/scripts/install_python_cython.sh $version
 
 # Launch the bash shell with the default profile.
 RUN rm -rf /home/scripts

@@ -13,7 +13,7 @@ following libraries:
 - HDF4, HDF5 and NetCDF4.
 - PyEnv with one specific Python version preinstalled.
 - Latest available working versions of [`pip`], [`setuptools`] and [`wheel`].
-- Latest available working versions of [`numpy`] and [`scipy`].
+- Latest available working versions of [`numpy`], [`scipy`] and [`cython`].
 
 Below there is a summary table with the preinstalled packages:
 
@@ -24,6 +24,7 @@ Below there is a summary table with the preinstalled packages:
 | wheel      | <0.30  | <0.36  | <0.32  | <0.30  | <0.34  | <0.36   | <0.36   |
 | numpy      | <1.12  | <1.17  | <1.12  | <1.12  | <1.17  | <1.19   | <1.20   |
 | scipy      | <0.18  | <1.3   | <0.18  | <1.0   | <1.3   | <1.5    | <1.6    |
+| cython     | <3.0   | <3.0   | <0.27  | <3.0   | <3.0   | <3.1    | <3.1    |
 
 
 ## Installation
@@ -67,3 +68,5 @@ https://pypi.org/project/wheel/
 https://numpy.org/
 [`scipy`]:
 https://scipy.org/
+[`cython`]:
+https://cython.org/

@@ -1,0 +1,51 @@
+#! /bin/sh
+
+set -e
+here=$(readlink -f "$0" | xargs dirname)
+name=$(readlink -f "$0" | xargs basename)
+
+
+# Define global variables.
+version=1.0.2u
+prefix=/opt/openssl-$(echo ${version} | sed -r 's|(([0-9]+\.)+[0-9]+)[a-z]?|\1|g')
+
+remote="https://www.openssl.org/source"
+pkgname="openssl-${version}"
+pkgfile="${pkgname}.tar.gz"
+
+# Create temporary workspace.
+cwd="$(pwd)"
+tmpdir="$(mktemp -d)"
+tmplog="${tmpdir}/${pkgname}.log"
+cd ${tmpdir}
+echo "Creating temporary workspace in ${tmpdir}..."
+
+# Proceed with the installation.
+echo "Downloading OpenSSL..."
+wget -q ${remote}/${pkgfile}
+
+echo "Decompressing OpenSSL..."
+tar -xf ${pkgfile}
+
+echo "Configuring OpenSSL..."
+cd ${pkgname}
+./config -fPIC no-shared --prefix=${prefix}                                   \
+    --openssldir=${prefix}/ssl 1>${tmplog} 2>&1
+
+echo "Building OpenSSL..."
+make -s 1>>${tmplog} 2>&1
+
+echo "Installing OpenSSL..."
+make -s install_sw 1>>${tmplog} 2>&1
+
+echo "Linking CA certificates..."
+if [ -d ${prefix}/ssl ]; then
+    rm -rf ${prefix}/ssl/certs
+    ln -s /etc/ssl/certs ${prefix}/ssl/certs
+fi
+
+echo "Cleaning up..."
+rm -rf ${tmpdir}
+cd ${cwd}
+
+echo "Done!"

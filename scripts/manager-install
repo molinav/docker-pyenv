@@ -1,0 +1,24 @@
+#! /bin/sh
+
+set -e
+here=$(readlink -f "$0" | xargs dirname)
+name=$(readlink -f "$0" | xargs basename)
+
+
+# Parse arguments.
+if [ $# -ne 1 ]; then
+    echo "E: The ${name} command takes at least one argument"
+    exit 1
+fi
+while [ $# -gt 0 ]; do
+    case "$1" in
+        openssl-10)
+            sh ${here}/manager-install-$1
+        ;;
+        *)
+            pkgman=$(sh ${here}/manager info os-package-manager)
+            ${pkgman} install -y $1
+        ;;
+    esac
+    shift
+done

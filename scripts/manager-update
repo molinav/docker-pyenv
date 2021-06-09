@@ -1,0 +1,20 @@
+#! /bin/sh
+
+set -e
+here=$(readlink -f "$0" | xargs dirname)
+name=$(readlink -f "$0" | xargs basename)
+
+
+pkgman=$(sh ${here}/manager info os-package-manager)
+if [ "${pkgman}" = "zypper" ]; then
+    update=refresh
+else
+    update=update
+fi
+
+
+if [ $# -ne 0 ]; then
+    echo "E: The ${name} command takes no arguments"
+    exit 1
+fi
+${pkgman} ${update}

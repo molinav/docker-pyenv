@@ -1,0 +1,21 @@
+#! /bin/sh
+
+set -e
+here=$(readlink -f "$0" | xargs dirname)
+name=$(readlink -f "$0" | xargs basename)
+find ${here}/ -name "manager" -exec chmod +x {} \;
+find ${here}/ -name "manager-*" -exec chmod +x {} \;
+
+
+# Main script.
+option="$1"
+case "${option}" in
+    info | update)
+        shift
+        sh "${here}/${name}-${option}" $@
+    ;;
+    *)
+        echo "Unknown option '${option}'"
+        exit 1
+    ;;
+esac

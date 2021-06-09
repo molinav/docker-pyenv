@@ -1,6 +1,7 @@
 #! /bin/sh
 
 set -e
+here=$(readlink -f "$0" | xargs dirname)
 
 pkg=$(echo "
     build-essential git llvm libssl-dev tk-dev                                \
@@ -8,6 +9,6 @@ pkg=$(echo "
     libffi-dev xz-utils zlib1g-dev libbz2-dev liblzma-dev
 ")
 
-apt-get update
+sh ${here}/manager update
 apt-get install -y --no-install-recommends $pkg
 apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*

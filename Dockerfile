@@ -37,10 +37,10 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY scripts /home/scripts
 
 # Install basic dependencies.
-RUN sh /home/scripts/install_base.sh
+RUN /home/scripts/manager install openssl ca-certificates wget zip unzip
 
 # Install GCC/GFortran compilers.
-RUN sh /home/scripts/install_compilers.sh
+RUN /home/scripts/manager install gcc gfortran
 
 # Install BLAS/LAPACK.
 RUN sh /home/scripts/install_lapack.sh

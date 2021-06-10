@@ -6,7 +6,7 @@ name=$(readlink -f "$0" | xargs basename)
 
 
 # Parse arguments.
-if [ $# -ne 1 ]; then
+if [ $# -eq 0 ]; then
     echo "E: The ${name} command takes at least one argument"
     exit 1
 fi

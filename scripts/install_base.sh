@@ -8,5 +8,5 @@ pkg=$(echo "
 ")
 
 sh ${here}/manager update
-sh ${here} manager install ${pkg}
-apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
+sh ${here}/manager install ${pkg}
+sh ${here}/manager clean

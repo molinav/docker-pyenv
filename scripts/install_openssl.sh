@@ -13,5 +13,5 @@ py34=$(test "$pyab" = "3.4"; echo $?)
 
 if [ $py26 -eq 0 -o $py30 -eq 0 -o $py31 -eq 0 -o                             \
      $py32 -eq 0 -o $py33 -eq 0 -o $py34 -eq 0 ]; then
-    sh ${here}/manager install openssl-10
+    sh ${here}/manager install openssl-1.0.2
 fi

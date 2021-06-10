@@ -5,13 +5,26 @@ here=$(readlink -f "$0" | xargs dirname)
 name=$(readlink -f "$0" | xargs basename)
 
 
-# Define global variables.
-version=1.0.2u
-prefix=/opt/openssl-$(echo ${version} | sed -r 's|(([0-9]+\.)+[0-9]+)[a-z]?|\1|g')
+# Parse arguments.
+if [ $# -gt 1 ]; then
+    echo "E: The ${name} command takes at maximum one argument"
+    exit 1
+fi
+version=1.1.1k
+if [ ! -z "$1" ]; then
+    version="$1"
+fi
+regex="1\.(0\.2[a-u]?|1\.1[a-k]?)"
+if [ -z $(echo "${version}" | grep -E "^${regex}$" || true) ]; then
+    echo "Invalid openssl version '$1'"
+    exit 1
+fi
 
+# Define remote url and installation prefix.
 remote="https://www.openssl.org/source"
 pkgname="openssl-${version}"
 pkgfile="${pkgname}.tar.gz"
+prefix=/opt/openssl-$(echo ${version} | sed -r 's|(([0-9]\.)+[0-9])[a-z]?|\1|g')
 
 # Create temporary workspace.
 cwd="$(pwd)"
@@ -21,21 +34,21 @@ cd ${tmpdir}
 echo "Creating temporary workspace in ${tmpdir}..."
 
 # Proceed with the installation.
-echo "Downloading OpenSSL..."
+echo "Downloading OpenSSL ${version}..."
 wget -q ${remote}/${pkgfile}
 
-echo "Decompressing OpenSSL..."
+echo "Decompressing OpenSSL ${version}..."
 tar -xf ${pkgfile}
 
-echo "Configuring OpenSSL..."
+echo "Configuring OpenSSL ${version}..."
 cd ${pkgname}
 ./config -fPIC no-shared --prefix=${prefix}                                   \
     --openssldir=${prefix}/ssl 1>${tmplog} 2>&1
 
-echo "Building OpenSSL..."
+echo "Building OpenSSL ${version}..."
 make -s 1>>${tmplog} 2>&1
 
-echo "Installing OpenSSL..."
+echo "Installing OpenSSL ${version}..."
 make -s install_sw 1>>${tmplog} 2>&1
 
 echo "Linking CA certificates..."

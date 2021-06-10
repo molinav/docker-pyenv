@@ -12,8 +12,11 @@ if [ $# -ne 1 ]; then
 fi
 while [ $# -gt 0 ]; do
     case "$1" in
-        openssl-10)
-            sh ${here}/manager-install-$1
+        openssl-1.0.2)
+            sh ${here}/manager-install-openssl 1.0.2j
+        ;;
+        openssl-1.1.1)
+            sh ${here}/manager-install-openssl 1.1.1k
         ;;
         *)
             pkgman=$(sh ${here}/manager info os-package-manager)

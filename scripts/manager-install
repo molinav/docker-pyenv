@@ -10,6 +10,7 @@ if [ $# -eq 0 ]; then
     echo "E: The ${name} command takes at least one argument"
     exit 1
 fi
+
 first_repo_install=1
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -33,12 +34,15 @@ while [ $# -gt 0 ]; do
                 ;;
             esac
             if [ ${first_repo_install} -eq 1 ]; then
-                ${pkgman} update
+                sh ${here}/manager update
                 first_repo_install=0
             fi
             ${pkgman} install -y ${norecommends} $1
-            ${pkgman} clean
         ;;
     esac
     shift
 done
+
+if [ ${first_repo_install} -eq 0 ]; then
+    sh ${here}/manager clean
+fi

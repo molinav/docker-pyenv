@@ -10,7 +10,7 @@ find ${here}/ -name "manager-*" -exec chmod +x {} \;
 # Main script.
 option="$1"
 case "${option}" in
-    info | install | update)
+    clean | info | install | update)
         shift
         sh "${here}/${name}-${option}" $@
     ;;

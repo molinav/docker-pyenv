@@ -14,11 +14,14 @@ fi
 # Add compatibility across package managers.
 pkgman=$(sh ${here}/manager info os-package-manager)
 case ${pkgman} in
+    yum)
+        update=update -y
+    ;;
     zypper)
         update=refresh
     ;;
     *)
-        update=update -y
+        update=update
     ;;
 esac
 

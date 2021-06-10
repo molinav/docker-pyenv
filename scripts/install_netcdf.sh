@@ -9,5 +9,5 @@ pkg=$(echo "
 ")
 
 sh ${here}/manager update
-apt-get install -y --no-install-recommends $pkg
+sh ${here}/manager install ${pkg}
 apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*

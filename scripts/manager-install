@@ -20,7 +20,18 @@ while [ $# -gt 0 ]; do
         ;;
         *)
             pkgman=$(sh ${here}/manager info os-package-manager)
-            ${pkgman} install -y $1
+            case ${pkgman} in
+                apt-get)
+                    norecommends=--no-install-recommends
+                ;;
+                zypper)
+                    norecommends=--no-recommends
+                ;;
+                *)
+                    norecommends=
+                ;;
+            esac
+            ${pkgman} install -y ${norecommends} $1
         ;;
     esac
     shift

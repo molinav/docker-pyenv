@@ -6,11 +6,12 @@ here=$(readlink -f "$0" | xargs dirname)
 
 pyversion="$1"
 
-# Download PyEnv.
-pyenv_root="$(sh ${here}/manager info pyenv-root)"
-wget -q https://github.com/pyenv/pyenv/archive/master.zip -O pyenv.zip
-unzip -q pyenv.zip pyenv-master/* && mv pyenv-master "${pyenv_root}"
-rm -f pyenv.zip
+# Install PyEnv if not present.
+rc3=/etc/profile.d/03-set-pyenv.sh
+if [ ! -d $(sh ${here}/manager info pyenv-root) ]; then
+    sh ${here}/manager install pyenv
+    . ${rc3}
+fi
 
 # Install OpenSSL if not present.
 delete_openssl=0
@@ -35,17 +36,7 @@ case ${pyversion} in
     ;;
 esac
 
-# Add PyEnv + Python initialisation to profile.
-rc3=/etc/profile.d/03-set-pyenv.sh
-echo "# Enable PyEnv environment" > ${rc3}
-echo 'export PYENV_ROOT="'${pyenv_root}'"' >> ${rc3}
-echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ${rc3}
-echo 'eval "$(pyenv init --path)"' >> ${rc3}
-echo 'eval "$(pyenv init -)"' >> ${rc3}
-echo "" >> ${rc3}
-
 # Initialise PyEnv and install a specific Python version.
-. ${rc3}
 alias openssl=/usr/local/ssl/bin/openssl
 ln -s ${prefix} /usr/local/ssl
 export CFLAGS="-I${prefix}/include"

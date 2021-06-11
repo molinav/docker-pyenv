@@ -23,6 +23,9 @@ while [ $# -gt 0 ]; do
         openssl-1.1.1)
             sh ${here}/manager-install-openssl 1.1.1k
         ;;
+        pyenv)
+            sh ${here}/manager-install-$1
+        ;;
         python-pip|python-setuptools|python-wheel)
             sh ${here}/manager-install-$1
         ;;

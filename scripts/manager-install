@@ -14,7 +14,7 @@ fi
 repo_install=0
 while [ $# -gt 0 ]; do
     case "$1" in
-        blas|lapack|pyenv-dev)
+        blas|lapack|hdf4|hdf5|netcdf4|pyenv-dev)
             sh ${here}/manager install $(${here}/manager info $1)
         ;;
         openssl-1.0.2)

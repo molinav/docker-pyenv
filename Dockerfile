@@ -46,7 +46,7 @@ RUN /home/scripts/manager install gcc gfortran
 RUN /home/scripts/manager install blas lapack
 
 # Add system libraries for HDF4/HDF5/NetCDF4.
-RUN sh /home/scripts/install_netcdf.sh
+RUN /home/scripts/manager install hdf4 hdf5 netcdf4
 
 # Install PyEnv dependencies.
 RUN /home/scripts/manager install pyenv-dev

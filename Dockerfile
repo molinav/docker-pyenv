@@ -62,14 +62,8 @@ RUN sh /home/scripts/install_pyenv_python.sh $version
 # Upgrade pip, wheel and setuptools if possible.
 RUN /home/scripts/manager install python-pip python-setuptools python-wheel
 
-# Install NumPy.
-RUN /home/scripts/manager install python-numpy
-
-# Install SciPy.
-RUN /home/scripts/manager install python-scipy
-
-# Install Cython.
-RUN /home/scripts/manager install python-cython
+# Install basic scientific tools that may need compilation.
+RUN /home/scripts/manager install python-cython python-numpy python-scipy
 
 # Launch the bash shell with the default profile.
 RUN rm -rf /home/scripts

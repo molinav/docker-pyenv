@@ -43,5 +43,5 @@ case ${pyversion} in
     ;;
 esac
 
-pip install --no-cache-dir "wheel < ${maxversion}"
+pip install --no-cache-dir --upgrade "wheel < ${maxversion}"
 rm -rf ${HOME}/.cache/pip /tmp/*

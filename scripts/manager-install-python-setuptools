@@ -46,5 +46,5 @@ case ${pyversion} in
     ;;
 esac
 
-pip install --no-cache-dir "setuptools < ${maxversion}"
+pip install --no-cache-dir --upgrade "setuptools < ${maxversion}"
 rm -rf ${HOME}/.cache/pip /tmp/*

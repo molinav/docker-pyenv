@@ -51,5 +51,5 @@ if [ -z $(pip list | grep -E "^$numpy .*$" || true) ]; then
     ${here}/manager install python-numpy
 fi
 
-pip install --no-cache-dir "scipy < ${maxversion}"
+pip install --no-cache-dir --upgrade "scipy < ${maxversion}"
 rm -rf ${HOME}/.cache/pip /tmp/*

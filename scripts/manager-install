@@ -20,6 +20,9 @@ while [ $# -gt 0 ]; do
         openssl-1.1.1)
             sh ${here}/manager-install-openssl 1.1.1k
         ;;
+        python-scipy)
+            sh ${here}/manager-install-python-scipy
+        ;;
         *)
             pkgman=$(sh ${here}/manager info os-package-manager)
             case ${pkgman} in

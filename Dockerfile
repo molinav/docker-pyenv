@@ -66,7 +66,7 @@ RUN sh /home/scripts/install_python_base.sh $version
 RUN sh /home/scripts/install_python_numpy.sh $version
 
 # Install SciPy.
-RUN sh /home/scripts/install_python_scipy.sh $version
+RUN /home/scripts/manager install python-scipy
 
 # Install Cython.
 RUN sh /home/scripts/install_python_cython.sh $version

@@ -63,7 +63,7 @@ RUN sh /home/scripts/install_pyenv_python.sh $version
 RUN sh /home/scripts/install_python_base.sh $version
 
 # Install NumPy.
-RUN sh /home/scripts/install_python_numpy.sh $version
+RUN /home/scripts/manager install python-numpy
 
 # Install SciPy.
 RUN /home/scripts/manager install python-scipy

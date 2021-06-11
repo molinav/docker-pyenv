@@ -23,6 +23,9 @@ while [ $# -gt 0 ]; do
         python-cython)
             sh ${here}/manager-install-python-cython
         ;;
+        python-numpy)
+            sh ${here}/manager-install-python-numpy
+        ;;
         python-scipy)
             sh ${here}/manager-install-python-scipy
         ;;

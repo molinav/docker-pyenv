@@ -60,7 +60,7 @@ ENV PATH=$PYENV_ROOT/bin:$PATH
 RUN sh /home/scripts/install_pyenv_python.sh $version
 
 # Upgrade pip, wheel and setuptools if possible.
-RUN sh /home/scripts/install_python_base.sh $version
+RUN /home/scripts/manager install python-pip python-setuptools python-wheel
 
 # Install NumPy.
 RUN /home/scripts/manager install python-numpy

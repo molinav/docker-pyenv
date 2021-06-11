@@ -23,14 +23,11 @@ while [ $# -gt 0 ]; do
         pyenv-dev)
             sh ${here}/manager install $(${here}/manager info pyenv-dev)
         ;;
-        python-cython)
-            sh ${here}/manager-install-python-cython
+        python-pip|python-setuptools|python-wheel)
+            sh ${here}/manager-install-$1
         ;;
-        python-numpy)
-            sh ${here}/manager-install-python-numpy
-        ;;
-        python-scipy)
-            sh ${here}/manager-install-python-scipy
+        python-cython|python-numpy|python-scipy)
+            sh ${here}/manager-install-$1
         ;;
         *)
             pkgman=$(sh ${here}/manager info os-package-manager)

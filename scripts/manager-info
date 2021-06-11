@@ -153,6 +153,11 @@ _info_pyenv_dev() {
 }
 
 
+_info_pyenv_root() {
+    echo /usr/local/share/pyenv
+}
+
+
 # Parse arguments.
 # if [ $# -ne 1 ]; then
 #     echo "E: The ${name} command takes one argument"
@@ -178,8 +183,8 @@ case "$1" in
     os-package-manager)
         _info_os_package_manager
     ;;
-    pyenv-dev)
-        _info_pyenv_dev
+    pyenv-dev|pyenv-root)
+        _info_$(echo $1 | tr - _)
     ;;
     *)
         echo "Unknown option '$1'"

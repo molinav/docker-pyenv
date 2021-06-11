@@ -51,12 +51,7 @@ RUN /home/scripts/manager install hdf4 hdf5 netcdf4
 # Install PyEnv dependencies.
 RUN /home/scripts/manager install pyenv-dev
 
-# Install OpenSSL 1.0.2 for Python < 3.5, != 2.7.
-RUN sh /home/scripts/install_openssl.sh $version
-
 # Install Python through PyEnv.
-ENV PYENV_ROOT=/usr/local/share/pyenv
-ENV PATH=$PYENV_ROOT/bin:$PATH
 RUN sh /home/scripts/install_pyenv_python.sh $version
 
 # Upgrade pip, wheel and setuptools if possible.

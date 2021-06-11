@@ -47,7 +47,7 @@ case ${pyversion} in
 esac
 
 # Ensure that `numpy` is already installed.
-if [ -z $(pip list | grep -E "^numpy .*$" || true) ]; then
+if [ -z "$(pip list | grep -E '^numpy .*$' || true)" ]; then
     sh ${here}/manager install python-numpy
 fi
 

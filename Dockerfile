@@ -43,7 +43,7 @@ RUN /home/scripts/manager install openssl ca-certificates wget zip unzip
 RUN /home/scripts/manager install gcc gfortran
 
 # Install BLAS/LAPACK.
-RUN sh /home/scripts/install_lapack.sh
+RUN /home/scripts/manager install blas lapack
 
 # Add system libraries for HDF4/HDF5/NetCDF4.
 RUN sh /home/scripts/install_netcdf.sh

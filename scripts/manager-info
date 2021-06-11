@@ -33,6 +33,39 @@ _info_os_package_manager() {
     esac
 }
 
+
+_info_blas() {
+    case "$(_info_os_name)" in
+        Ubuntu)
+            echo "libblas3 libblas-dev"
+        ;;
+        CentOS|RedHat)
+            echo "blas blas-devel"
+        ;;
+        *)
+            echo "Unknown operating system '$(_info_os_name)'"
+            exit 1
+        ;;
+    esac
+}
+
+
+_info_lapack() {
+    case "$(_info_os_name)" in
+        Ubuntu)
+            echo "liblapack3 liblapack-dev"
+        ;;
+        CentOS|RedHat)
+            echo "lapack lapack-devel"
+        ;;
+        *)
+            echo "Unknown operating system '$(_info_os_name)'"
+            exit 1
+        ;;
+    esac
+}
+
+
 _info_pyenv_dev() {
     case "$(_info_os_name)" in
         Ubuntu)
@@ -63,6 +96,12 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 case "$1" in
+    blas)
+        _info_blas
+    ;;
+    lapack)
+        _info_lapack
+    ;;
     os-name)
         _info_os_name
     ;;

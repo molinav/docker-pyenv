@@ -14,14 +14,14 @@ fi
 repo_install=0
 while [ $# -gt 0 ]; do
     case "$1" in
+        blas|lapack|pyenv-dev)
+            sh ${here}/manager install $(${here}/manager info $1)
+        ;;
         openssl-1.0.2)
             sh ${here}/manager-install-openssl 1.0.2j
         ;;
         openssl-1.1.1)
             sh ${here}/manager-install-openssl 1.1.1k
-        ;;
-        pyenv-dev)
-            sh ${here}/manager install $(${here}/manager info pyenv-dev)
         ;;
         python-pip|python-setuptools|python-wheel)
             sh ${here}/manager-install-$1

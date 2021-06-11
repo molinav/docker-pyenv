@@ -33,6 +33,29 @@ _info_os_package_manager() {
     esac
 }
 
+_info_pyenv_dev() {
+    case "$(_info_os_name)" in
+        Ubuntu)
+            echo "
+                build-essential git llvm libssl-dev tk-dev                    \
+                libncursesw5-dev libreadline-dev libsqlite3-dev               \
+                libffi-dev xz-utils zlib1g-dev libbz2-dev liblzma-dev
+            " | xargs
+        ;;
+        CentOS|RedHat)
+            echo "
+                @development findutils git llvm openssl-devel                 \
+                readline-devel sqlite sqlite-devel                            \
+                libffi-devel xz xz-devel bzip2 bzip2-devel zlib-devel
+            " | xargs
+        ;;
+        *)
+            echo "Unknown operating system '$(_info_os_name)'"
+            exit 1
+        ;;
+    esac
+}
+
 
 # Parse arguments.
 if [ $# -ne 1 ]; then
@@ -48,6 +71,9 @@ case "$1" in
     ;;
     os-package-manager)
         _info_os_package_manager
+    ;;
+    pyenv-dev)
+        _info_pyenv_dev
     ;;
     *)
         echo "Unknown option '$1'"

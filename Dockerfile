@@ -49,7 +49,7 @@ RUN sh /home/scripts/install_lapack.sh
 RUN sh /home/scripts/install_netcdf.sh
 
 # Install PyEnv dependencies.
-RUN sh /home/scripts/install_pyenv_build_lib.sh
+RUN /home/scripts/manager install pyenv-dev
 
 # Install OpenSSL 1.0.2 for Python < 3.5, != 2.7.
 RUN sh /home/scripts/install_openssl.sh $version

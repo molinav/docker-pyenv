@@ -22,7 +22,7 @@ fi
 # Define library version limit based on the Python version.
 pyversion=$(python -V 2>&1 | cut -d' ' -f2)
 case ${pyversion} in
-    2.6.*|3.2.*)
+    2.6.*|3.2.*|3.3.*)
         maxversion=1.12
         # NumPy < 1.12 needs `xlocale.h`.
         if [ ! -f /usr/include/xlocale.h ]; then

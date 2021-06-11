@@ -2,27 +2,31 @@
 
 . /etc/profile
 
-version="$1"
-pyab=$(echo "$version" | cut -d. -f1,2)
-py26=$(test "$pyab" = "2.6"; echo $?)
-py27=$(test "$pyab" = "2.7"; echo $?)
-py30=$(test "$pyab" = "3.0"; echo $?)
-py31=$(test "$pyab" = "3.1"; echo $?)
-py32=$(test "$pyab" = "3.2"; echo $?)
-py33=$(test "$pyab" = "3.3"; echo $?)
-py34=$(test "$pyab" = "3.4"; echo $?)
-py35=$(test "$pyab" = "3.5"; echo $?)
+pyversion=$(echo "$1" | cut -d. -f1,2)
+case ${pyversion} in
+    2.6|3.2)
+        maxversion=0.18
+    ;;
+    2.7|3.4)
+        maxversion=1.3
+    ;;
+    3.3)
+        maxversion=1.0
+    ;;
+    3.5)
+        maxversion=1.5
+    ;;
+    3.6)
+        maxversion=1.6
+    ;;
+    3.7|3.8|3.9)
+        maxversion=1.7
+    ;;
+    *)
+        echo "Unsupported Python version: '${pyversion}'"
+        exit 1
+    ;;
+esac
 
-if [ $py26 -eq 0 -o $py32 -eq 0 ]; then
-    pip install --no-cache-dir "scipy < 0.18"
-elif [ $py33 -eq 0 ]; then
-    pip install --no-cache-dir "scipy < 1.0"
-elif [ $py27 -eq 0 -o $py34 -eq 0 ]; then
-    pip install --no-cache-dir "scipy < 1.3"
-elif [ $py35 -eq 0 ]; then
-    pip install --no-cache-dir "scipy < 1.5"
-elif [ $py30 -eq 1 -a $py31 -eq 1 ]; then
-    pip install --no-cache-dir "scipy < 1.6"
-fi
-
-rm -rf $HOME/.cache/pip /tmp/*
+pip install --no-cache-dir "scipy < ${maxversion}"
+rm -rf ${HOME}/.cache/pip /tmp/*

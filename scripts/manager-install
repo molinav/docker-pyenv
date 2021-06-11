@@ -11,7 +11,7 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-first_repo_install=1
+repo_install=0
 while [ $# -gt 0 ]; do
     case "$1" in
         openssl-1.0.2)
@@ -33,9 +33,9 @@ while [ $# -gt 0 ]; do
                     norecommends=
                 ;;
             esac
-            if [ ${first_repo_install} -eq 1 ]; then
+            if [ ${repo_install} -eq 0 ]; then
                 sh ${here}/manager update
-                first_repo_install=0
+                repo_install=1
             fi
             ${pkgman} install -y ${norecommends} $1
         ;;
@@ -43,6 +43,6 @@ while [ $# -gt 0 ]; do
     shift
 done
 
-if [ ${first_repo_install} -eq 0 ]; then
+if [ ${repo_install} -eq 1 ]; then
     sh ${here}/manager clean
 fi

@@ -1,0 +1,41 @@
+#! /bin/sh
+
+set -e
+here=$(readlink -f "$0" | xargs dirname)
+
+
+# Ensure that the script does not receive arguments.
+if [ $# -ne 0 ]; then
+    echo "E: The ${name} command takes no arguments"
+    exit 1
+fi
+
+# Ensure that `pip` is available.
+if [ ! -x "$(command -v python || true)" ]; then
+    . /etc/profile
+fi
+if [ ! -x "$(command -v pip || true)" ]; then
+    echo "E: pip is not installed in your system"
+    exit 1
+fi
+
+# Define library version limit based on the Python version.
+pyversion=$(python -V 2>&1 | cut -d' ' -f2)
+case ${pyversion} in
+    2.6.*|2.7.*|3.3.*|3.4.*)
+        maxversion=3.0
+    ;;
+    3.2.*)
+        maxversion=0.27
+    ;;
+    3.5.*|3.6.*|3.7.*|3.8.*|3.9.*)
+        maxversion=3.1
+    ;;
+    *)
+        echo "E: unsupported Python version: '${pyversion}'"
+        exit 1
+    ;;
+esac
+
+pip install --no-cache-dir "cython < ${maxversion}"
+rm -rf ${HOME}/.cache/pip /tmp/*

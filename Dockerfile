@@ -69,7 +69,7 @@ RUN sh /home/scripts/install_python_numpy.sh $version
 RUN /home/scripts/manager install python-scipy
 
 # Install Cython.
-RUN sh /home/scripts/install_python_cython.sh $version
+RUN /home/scripts/manager install python-cython
 
 # Launch the bash shell with the default profile.
 RUN rm -rf /home/scripts

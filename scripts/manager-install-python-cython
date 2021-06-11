@@ -37,5 +37,5 @@ case ${pyversion} in
     ;;
 esac
 
-pip install --no-cache-dir --upgrade "cython < ${maxversion}"
+pip install --no-cache-dir "cython < ${maxversion}"
 rm -rf ${HOME}/.cache/pip /tmp/*

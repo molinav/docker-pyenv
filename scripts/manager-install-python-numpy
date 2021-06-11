@@ -47,5 +47,5 @@ case ${pyversion} in
     ;;
 esac
 
-pip install --no-cache-dir --upgrade "numpy < ${maxversion}"
+pip install --no-cache-dir "numpy < ${maxversion}"
 rm -rf ${HOME}/.cache/pip /tmp/*

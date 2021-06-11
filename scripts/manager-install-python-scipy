@@ -46,5 +46,10 @@ case ${pyversion} in
     ;;
 esac
 
+# Ensure that `numpy` is already installed.
+if [ -z $(pip list | grep -E "^$numpy .*$" || true) ]; then
+    ${here}/manager install python-numpy
+fi
+
 pip install --no-cache-dir "scipy < ${maxversion}"
 rm -rf ${HOME}/.cache/pip /tmp/*

@@ -24,7 +24,7 @@ fi
 remote="https://www.openssl.org/source"
 pkgname="openssl-${version}"
 pkgfile="${pkgname}.tar.gz"
-prefix=/opt/openssl-$(echo ${version} | sed -r 's|(([0-9]\.)+[0-9])[a-z]?|\1|g')
+prefix=$(${here}/manager info openssl-root ${version})
 
 # Create temporary workspace.
 cwd="$(pwd)"

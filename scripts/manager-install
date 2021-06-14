@@ -14,9 +14,6 @@ fi
 repo_install=0
 while [ $# -gt 0 ]; do
     case "$1" in
-        blas|lapack|hdf4|hdf5|netcdf4|pyenv-dev)
-            sh ${here}/manager install $(sh ${here}/manager info $1)
-        ;;
         openssl-1.0.2)
             sh ${here}/manager-install-openssl 1.0.2j
         ;;
@@ -33,6 +30,14 @@ while [ $# -gt 0 ]; do
             sh ${here}/manager-install-$1
         ;;
         *)
+            case "$1" in
+                blas|lapack|hdf4|hdf5|netcdf4|pyenv-dev)
+                    pkglist="$(sh ${here}/manager info $1)"
+                ;;
+                *)
+                    pkglist="$1"
+                ;;
+            esac
             pkgman=$(sh ${here}/manager info os-package-manager)
             case ${pkgman} in
                 apt-get)
@@ -49,7 +54,7 @@ while [ $# -gt 0 ]; do
                 sh ${here}/manager update
                 repo_install=1
             fi
-            ${pkgman} install -y ${norecommends} $1
+            ${pkgman} install -y ${norecommends} ${pkglist}
         ;;
     esac
     shift

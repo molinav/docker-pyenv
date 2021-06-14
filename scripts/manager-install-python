@@ -36,16 +36,15 @@ fi
 
 # Install OpenSSL if not present.
 delete_openssl=0
-prefix="$(manager info openssl-root ${version_openssl})"
-if [ ! -d ${prefix} ]; then
+if [ ! -d $(manager info openssl-root ${version_openssl}) ]; then
     delete_openssl=1
     manager install ${package_openssl}
 fi
 
 # Install a specific Python version.
 manager enable ${package_openssl}
-export CFLAGS="-I${prefix}/include"
-export LDFLAGS="-L${prefix}/lib"
+export CFLAGS="-I/usr/local/ssl/include"
+export LDFLAGS="-L/usr/local/ssl/lib"
 PATH="/usr/local/ssl/bin/openssl:${PATH}" pyenv install "${version}"
 echo "pyenv shell ${version}" >> ${pyenv_profile}
 

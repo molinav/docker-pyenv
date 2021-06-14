@@ -3,18 +3,20 @@
 set -e
 here=$(readlink -f "$0" | xargs dirname)
 name=$(readlink -f "$0" | xargs basename)
+alias manager="sh ${here}/manager"
 
 
-# Parse arguments.
+# Check number of arguments.
 if [ $# -ne 1 ]; then
     echo "E: The ${name} command takes one argument"
     exit 1
 fi
 
+# Apply disabling.
 case "$1" in
     openssl-1.0.2|openssl-1.1.1)
         sslpath=/usr/local/ssl
-        prefix=$(sh ${here}/manager info openssl-root $(echo $1 | cut -d- -f2))
+        prefix=$(manager info openssl-root $(echo $1 | cut -d- -f2))
         if [ "$(readlink -f ${sslpath})" = "${prefix}" ]; then
             rm ${sslpath}
             if [ -d ${sslpath}.bak ]; then

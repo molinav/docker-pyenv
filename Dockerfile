@@ -61,6 +61,12 @@ RUN /home/scripts/manager install python-pip python-setuptools python-wheel
 # Install basic scientific tools that may need compilation.
 RUN /home/scripts/manager install python-cython python-numpy python-scipy
 
+# Remove cached Python files.
+RUN pyenv_root=$(home/scripts/manager info pyenv-root)                      &&\
+    find ${pyenv_root} -type f -name "*.pyc" | xargs rm -f {}               &&\
+    find ${pyenv_root} -type f -name "*.pyo" | xargs rm -f {}               &&\
+    find ${pyenv_root} -type d -name "__pycache__" | xargs rmdir
+
 # Launch the bash shell with the default profile.
 RUN rm -rf /home/scripts
 RUN echo "Done!"

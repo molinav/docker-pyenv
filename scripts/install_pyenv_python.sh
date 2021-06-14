@@ -34,15 +34,14 @@ if [ ! -d ${prefix} ]; then
 fi
 
 # Initialise PyEnv and install a specific Python version.
-alias openssl=/usr/local/ssl/bin/openssl
-ln -s ${prefix} /usr/local/ssl
+sh ${here}/manager enable openssl-${version_openssl}
 export CFLAGS="-I${prefix}/include"
 export LDFLAGS="-L${prefix}/lib"
-pyenv install "${pyversion}"
+PATH="/usr/local/ssl/bin/openssl:${PATH}" pyenv install "${pyversion}"
 echo "pyenv shell ${pyversion}" >> ${pyenv_profile}
 
 # Remove OpenSSL if installed on the fly.
-rm /usr/local/ssl
+sh ${here}/manager disable openssl-${version_openssl}
 if [ ${delete_openssl} -eq 1 ]; then
     sh ${here}/manager remove openssl-${version_openssl}
 fi

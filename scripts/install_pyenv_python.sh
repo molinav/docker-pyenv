@@ -14,27 +14,24 @@ if [ ! -d $(sh ${here}/manager info pyenv-root) ]; then
 fi
 
 # Install OpenSSL if not present.
-delete_openssl=0
 case ${pyversion} in
     2.6.*|3.2.*|3.3.*|3.4.*)
-        prefix="$(sh ${here}/manager info openssl-root 1.0.2j)"
-        if [ ! -d ${prefix} ]; then
-            delete_openssl=1
-            sh ${here}/manager install openssl-1.0.2
-        fi
+        version_openssl=1.0.2
     ;;
     2.7.*|3.5.*|3.6.*|3.7.*|3.8.*|3.9.*)
-        prefix="$(sh ${here}/manager info openssl-root 1.1.1k)"
-        if [ ! -d ${prefix} ]; then
-            delete_openssl=1
-            sh ${here}/manager install openssl-1.1.1
-        fi
+        version_openssl=1.1.1
     ;;
     *)
         echo "E: unsupported Python version: '${pyversion}'"
         exit 1
     ;;
 esac
+delete_openssl=0
+prefix="$(sh ${here}/manager info openssl-root ${version_openssl})"
+if [ ! -d ${prefix} ]; then
+    delete_openssl=1
+    sh ${here}/manager install openssl-${version_openssl}
+fi
 
 # Initialise PyEnv and install a specific Python version.
 alias openssl=/usr/local/ssl/bin/openssl
@@ -47,5 +44,5 @@ echo "pyenv shell ${pyversion}" >> ${pyenv_profile}
 # Remove OpenSSL if installed on the fly.
 rm /usr/local/ssl
 if [ ${delete_openssl} -eq 1 ]; then
-    rm -rf ${prefix}
+    sh ${here}/manager remove openssl-${version_openssl}
 fi

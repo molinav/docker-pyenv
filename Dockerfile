@@ -26,10 +26,11 @@ FROM ubuntu:20.04
 ARG version
 RUN echo "Building Docker container for Python $version..."
 
-# Set basic info.
-ENV LANG=C.UTF-8
-ENV LANGUAGE=C.UTF-8
-ENV LC_ALL=C.UTF-8
+# Set environment variables.
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=POSIX
+ENV LANGUAGE=POSIX
+ENV LC_ALL=POSIX
 ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 

@@ -22,7 +22,7 @@
 #     docker run --name py38-live --rm -it ubuntu-pyenv-3.8.4
 #
 
-FROM ubuntu:20.04
+FROM ubuntu:20.04 AS host
 ARG version
 RUN echo "Building Docker container for Python $version..."
 
@@ -65,3 +65,18 @@ RUN /home/scripts/manager install python-cython python-numpy python-scipy
 RUN rm -rf /home/scripts
 RUN echo "Done!"
 CMD ["bash", "-l"]
+
+###############################################################################
+FROM scratch
+
+# Set environment variables.
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=POSIX
+ENV LANGUAGE=POSIX
+ENV LC_ALL=POSIX
+ENV TZ=UTC
+
+# Copy host.
+COPY --from=host / /
+CMD ["bash", "-l"]
+###############################################################################

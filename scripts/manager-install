@@ -29,6 +29,9 @@ while [ $# -gt 0 ]; do
         python-cython|python-numpy|python-scipy)
             sh ${here}/manager-install-$1
         ;;
+        python-2.*|python-3.*)
+            sh ${here}/manager-install-python "$(echo $1 | cut -d- -f2)"
+        ;;
         *)
             case "$1" in
                 blas|lapack|hdf4|hdf5|netcdf4|pyenv-dev)

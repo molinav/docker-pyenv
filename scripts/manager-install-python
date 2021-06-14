@@ -4,16 +4,13 @@ set -e
 here=$(readlink -f "$0" | xargs dirname)
 
 
-pyversion="$1"
-
-# Install PyEnv if not present.
-pyenv_profile="$(sh ${here}/manager info pyenv-profile)"
-if [ ! -d $(sh ${here}/manager info pyenv-root) ]; then
-    sh ${here}/manager install pyenv
-    . ${pyenv_profile}
+# Parse arguments.
+if [ $# -ne 1 ]; then
+    echo "E: The ${name} command takes one argument"
+    exit 1
 fi
 
-# Install OpenSSL if not present.
+pyversion="$1"
 case ${pyversion} in
     2.6.*|3.2.*|3.3.*|3.4.*)
         version_openssl=1.0.2
@@ -26,6 +23,15 @@ case ${pyversion} in
         exit 1
     ;;
 esac
+
+# Install PyEnv if not present.
+pyenv_profile="$(sh ${here}/manager info pyenv-profile)"
+if [ ! -d $(sh ${here}/manager info pyenv-root) ]; then
+    sh ${here}/manager install pyenv
+    . ${pyenv_profile}
+fi
+
+# Install OpenSSL if not present.
 delete_openssl=0
 prefix="$(sh ${here}/manager info openssl-root ${version_openssl})"
 if [ ! -d ${prefix} ]; then
@@ -33,7 +39,7 @@ if [ ! -d ${prefix} ]; then
     sh ${here}/manager install openssl-${version_openssl}
 fi
 
-# Initialise PyEnv and install a specific Python version.
+# Install a specific Python version.
 sh ${here}/manager enable openssl-${version_openssl}
 export CFLAGS="-I${prefix}/include"
 export LDFLAGS="-L${prefix}/lib"

@@ -64,9 +64,9 @@ RUN /home/scripts/manager remove pyenv-dev
 
 # Remove cached Python files.
 RUN pyenv_root=$(home/scripts/manager info pyenv-root)                      &&\
-    find ${pyenv_root} -type f -name "*.pyc" | xargs rm -f {}               &&\
-    find ${pyenv_root} -type f -name "*.pyo" | xargs rm -f {}               &&\
-    find ${pyenv_root} -type d -name "__pycache__" | xargs rmdir
+    find ${pyenv_root} -type f -name "*.pyc" | xargs rm -f                  &&\
+    find ${pyenv_root} -type f -name "*.pyo" | xargs rm -f                  &&\
+    find ${pyenv_root} -type d -name "__pycache__" | xargs rm -rf
 
 # Launch the bash shell with the default profile.
 RUN rm -rf /home/scripts

@@ -153,6 +153,11 @@ _info_pyenv_dev() {
 }
 
 
+_info_pyenv_profile() {
+    echo /etc/profile.d/01-set-pyenv.sh
+}
+
+
 _info_pyenv_root() {
     echo /usr/local/share/pyenv
 }
@@ -174,7 +179,7 @@ case "$1" in
     os-name|os-version|os-package-manager)
         _info_$(echo $1 | tr - _)
     ;;
-    pyenv-dev|pyenv-root)
+    pyenv-dev|pyenv-profile|pyenv-root)
         _info_$(echo $1 | tr - _)
     ;;
     *)

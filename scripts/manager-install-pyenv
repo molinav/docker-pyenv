@@ -21,13 +21,13 @@ unzip -q pyenv.zip pyenv-master/* && mv pyenv-master "${pyenv_root}"
 rm -f pyenv.zip
 
 # Add PyEnv initialisation to profile.
+pyenv_profile="$(sh ${here}/manager info pyenv-profile)"
 echo "Configuring PyEnv..."
-rc3=/etc/profile.d/03-set-pyenv.sh
-echo "# Enable PyEnv environment" > ${rc3}
-echo 'export PYENV_ROOT="'${pyenv_root}'"' >> ${rc3}
-echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ${rc3}
-echo 'eval "$(pyenv init --path)"' >> ${rc3}
-echo 'eval "$(pyenv init -)"' >> ${rc3}
-echo "" >> ${rc3}
+echo "# Enable PyEnv environment" > ${pyenv_profile}
+echo 'export PYENV_ROOT="'${pyenv_root}'"' >> ${pyenv_profile}
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ${pyenv_profile}
+echo 'eval "$(pyenv init --path)"' >> ${pyenv_profile}
+echo 'eval "$(pyenv init -)"' >> ${pyenv_profile}
+echo "" >> ${pyenv_profile}
 
 echo "Done!"

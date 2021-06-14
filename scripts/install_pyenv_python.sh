@@ -7,10 +7,10 @@ here=$(readlink -f "$0" | xargs dirname)
 pyversion="$1"
 
 # Install PyEnv if not present.
-rc3=/etc/profile.d/03-set-pyenv.sh
+pyenv_profile="$(sh ${here}/manager info pyenv-profile)"
 if [ ! -d $(sh ${here}/manager info pyenv-root) ]; then
     sh ${here}/manager install pyenv
-    . ${rc3}
+    . ${pyenv_profile}
 fi
 
 # Install OpenSSL if not present.
@@ -42,7 +42,7 @@ ln -s ${prefix} /usr/local/ssl
 export CFLAGS="-I${prefix}/include"
 export LDFLAGS="-L${prefix}/lib"
 pyenv install "${pyversion}"
-echo "pyenv shell ${pyversion}" >> ${rc3}
+echo "pyenv shell ${pyversion}" >> ${pyenv_profile}
 
 # Remove OpenSSL if installed on the fly.
 rm /usr/local/ssl

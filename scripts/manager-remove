@@ -3,25 +3,24 @@
 set -e
 here=$(readlink -f "$0" | xargs dirname)
 name=$(readlink -f "$0" | xargs basename)
+alias manager="sh ${here}/manager"
 
 
-# Parse arguments.
+# Check number of arguments.
 if [ $# -eq 0 ]; then
     echo "E: The ${name} command takes at least one argument"
     exit 1
 fi
 
+# Parse arguments.
 repo_remove=0
 while [ $# -gt 0 ]; do
     case "$1" in
-        openssl-1.0.2)
-            rm -r $(sh ${here}/manager info openssl-root 1.0.2j)
-        ;;
-        openssl-1.1.1)
-            rm -r $(sh ${here}/manager info openssl-root 1.1.1k)
+        openssl-1.0.2|openssl-1.1.1)
+            rm -r "$(manager info openssl-root $(echo $1 | cut -d- -f2))"
         ;;
         pyenv)
-            rm -r $(sh ${here}/manager info pyenv-root)
+            rm -r "$(manager info pyenv-root)"
         ;;
         python-pip|python-setuptools|python-wheel)
             pip uninstall -y "$(echo $1 | cut -d- -f2)"
@@ -34,13 +33,13 @@ while [ $# -gt 0 ]; do
         *)
             case "$1" in
                 blas|lapack|hdf4|hdf5|netcdf4|pyenv-dev)
-                    pkglist="$(sh ${here}/manager info $1)"
+                    pkglist="$(manager info $1)"
                 ;;
                 *)
                     pkglist="$1"
                 ;;
             esac
-            pkgman=$(sh ${here}/manager info os-package-manager)
+            pkgman=$(manager info os-package-manager)
             case ${pkgman} in
                 apt-get)
                     remove=purge
@@ -67,6 +66,7 @@ while [ $# -gt 0 ]; do
     shift
 done
 
+# Clean if the package manager was used.
 if [ ${repo_remove} -eq 1 ]; then
-    sh ${here}/manager clean
+    manager clean
 fi

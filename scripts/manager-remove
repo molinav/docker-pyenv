@@ -1,0 +1,72 @@
+#! /bin/sh
+
+set -e
+here=$(readlink -f "$0" | xargs dirname)
+name=$(readlink -f "$0" | xargs basename)
+
+
+# Parse arguments.
+if [ $# -eq 0 ]; then
+    echo "E: The ${name} command takes at least one argument"
+    exit 1
+fi
+
+repo_remove=0
+while [ $# -gt 0 ]; do
+    case "$1" in
+        openssl-1.0.2)
+            rm -r $(sh ${here}/manager info openssl-root 1.0.2j)
+        ;;
+        openssl-1.1.1)
+            rm -r $(sh ${here}/manager info openssl-root 1.1.1k)
+        ;;
+        pyenv)
+            rm -r $(sh ${here}/manager info pyenv-root)
+        ;;
+        python-pip|python-setuptools|python-wheel)
+            pip uninstall -y "$(echo $1 | cut -d- -f2)"
+            rm -rf ${HOME}/.cache/pip /tmp/*
+        ;;
+        python-cython|python-numpy|python-scipy)
+            pip uninstall -y "$(echo $1 | cut -d- -f2)"
+            rm -rf ${HOME}/.cache/pip /tmp/*
+        ;;
+        *)
+            case "$1" in
+                blas|lapack|hdf4|hdf5|netcdf4|pyenv-dev)
+                    pkglist="$(sh ${here}/manager info $1)"
+                ;;
+                *)
+                    pkglist="$1"
+                ;;
+            esac
+            pkgman=$(sh ${here}/manager info os-package-manager)
+            case ${pkgman} in
+                apt-get)
+                    remove=purge
+                    autoremove=autoremove
+                ;;
+                yum)
+                    remove=remove
+                    autoremove=autoremove
+                ;;
+                *)
+                    remove=remove
+                    autoremove=
+                ;;
+            esac
+            if [ ${repo_remove} -eq 0 ]; then
+                repo_remove=1
+            fi
+            ${pkgman} ${remove} -y ${pkglist}
+            if [ ! -z ${autoremove} ]; then
+                ${pkgman} ${autoremove} -y
+            fi
+        ;;
+    esac
+    shift
+done
+
+if [ ${repo_remove} -eq 1 ]; then
+    sh ${here}/manager clean
+fi

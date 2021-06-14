@@ -50,6 +50,7 @@ RUN /home/scripts/manager install blas lapack
 RUN /home/scripts/manager install hdf4 hdf5 netcdf4
 
 # Install Python through PyEnv.
+RUN /home/scripts/manager install pyenv-dev
 RUN /home/scripts/manager install python-${version}
 
 # Upgrade pip, wheel and setuptools if possible.

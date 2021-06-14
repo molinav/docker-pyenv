@@ -164,24 +164,15 @@ _info_pyenv_root() {
 #     exit 1
 # fi
 case "$1" in
-    blas|lapack)
-        _info_$1
-    ;;
-    hdf4|hdf5|netcdf4)
-        _info_$1
+    blas|lapack|hdf4|hdf5|netcdf4)
+        _info_$(echo $1 | tr - _)
     ;;
     openssl-root)
         shift
         _info_openssl_root $@
     ;;
-    os-name)
-        _info_os_name
-    ;;
-    os-version)
-        _info_os_version
-    ;;
-    os-package-manager)
-        _info_os_package_manager
+    os-name|os-version|os-package-manager)
+        _info_$(echo $1 | tr - _)
     ;;
     pyenv-dev|pyenv-root)
         _info_$(echo $1 | tr - _)

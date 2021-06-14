@@ -3,6 +3,7 @@
 set -e
 here=$(readlink -f "$0" | xargs dirname)
 name=$(readlink -f "$0" | xargs basename)
+alias manager="sh ${here}/manager"
 
 
 _info_os_name() {
@@ -27,7 +28,7 @@ _info_os_package_manager() {
             echo zypper
         ;;
         *)
-            echo "Unknown operating system '$(_info_os_name)'"
+            echo "E: Unknown operating system '$(_info_os_name)'"
             exit 1
         ;;
     esac
@@ -43,7 +44,7 @@ _info_hdf4() {
             echo "hdf hdf-devel"
         ;;
         *)
-            echo "Unknown operating system '$(_info_os_name)'"
+            echo "E:Unknown operating system '$(_info_os_name)'"
             exit 1
         ;;
     esac
@@ -59,7 +60,7 @@ _info_hdf5() {
             echo "hdf5 hdf5-devel"
         ;;
         *)
-            echo "Unknown operating system '$(_info_os_name)'"
+            echo "E: Unknown operating system '$(_info_os_name)'"
             exit 1
         ;;
     esac
@@ -75,7 +76,7 @@ _info_blas() {
             echo "blas blas-devel"
         ;;
         *)
-            echo "Unknown operating system '$(_info_os_name)'"
+            echo "E: Unknown operating system '$(_info_os_name)'"
             exit 1
         ;;
     esac
@@ -91,7 +92,7 @@ _info_lapack() {
             echo "lapack lapack-devel"
         ;;
         *)
-            echo "Unknown operating system '$(_info_os_name)'"
+            echo "E: Unknown operating system '$(_info_os_name)'"
             exit 1
         ;;
     esac
@@ -107,7 +108,7 @@ _info_netcdf4() {
             echo "netcdf netcdf-devel"
         ;;
         *)
-            echo "Unknown operating system '$(_info_os_name)'"
+            echo "E: Unknown operating system '$(_info_os_name)'"
             exit 1
         ;;
     esac
@@ -121,7 +122,7 @@ _info_openssl_root() {
     fi
     regex="1\.(0\.2[a-u]?|1\.1[a-k]?)"
     if [ -z $(echo "${version}" | grep -E "^${regex}$" || true) ]; then
-        echo "Invalid openssl version '$1'"
+        echo "E: Invalid openssl version '$1'"
         exit 1
     fi
     version_short=$(echo ${version} | sed -r 's|(([0-9]\.)+[0-9])[a-z]?|\1|g')
@@ -146,7 +147,7 @@ _info_pyenv_dev() {
             " | xargs
         ;;
         *)
-            echo "Unknown operating system '$(_info_os_name)'"
+            echo "E: Unknown operating system '$(_info_os_name)'"
             exit 1
         ;;
     esac
@@ -163,11 +164,6 @@ _info_pyenv_root() {
 }
 
 
-# Parse arguments.
-# if [ $# -ne 1 ]; then
-#     echo "E: The ${name} command takes one argument"
-#     exit 1
-# fi
 case "$1" in
     blas|lapack|hdf4|hdf5|netcdf4)
         _info_$(echo $1 | tr - _)
@@ -183,7 +179,7 @@ case "$1" in
         _info_$(echo $1 | tr - _)
     ;;
     *)
-        echo "Unknown option '$1'"
+        echo "E: Unknown option '$1'"
         exit 1
     ;;
 esac

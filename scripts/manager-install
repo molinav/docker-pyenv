@@ -3,14 +3,16 @@
 set -e
 here=$(readlink -f "$0" | xargs dirname)
 name=$(readlink -f "$0" | xargs basename)
+alias manager="sh ${here}/manager"
 
 
-# Parse arguments.
+# Check number of arguments.
 if [ $# -eq 0 ]; then
     echo "E: The ${name} command takes at least one argument"
     exit 1
 fi
 
+# Parse arguments.
 repo_install=0
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -35,13 +37,13 @@ while [ $# -gt 0 ]; do
         *)
             case "$1" in
                 blas|lapack|hdf4|hdf5|netcdf4|pyenv-dev)
-                    pkglist="$(sh ${here}/manager info $1)"
+                    pkglist="$(manager info $1)"
                 ;;
                 *)
                     pkglist="$1"
                 ;;
             esac
-            pkgman=$(sh ${here}/manager info os-package-manager)
+            pkgman=$(manager info os-package-manager)
             case ${pkgman} in
                 apt-get)
                     norecommends=--no-install-recommends
@@ -54,7 +56,7 @@ while [ $# -gt 0 ]; do
                 ;;
             esac
             if [ ${repo_install} -eq 0 ]; then
-                sh ${here}/manager update
+                manager update
                 repo_install=1
             fi
             ${pkgman} install -y ${norecommends} ${pkglist}
@@ -64,5 +66,5 @@ while [ $# -gt 0 ]; do
 done
 
 if [ ${repo_install} -eq 1 ]; then
-    sh ${here}/manager clean
+    manager clean
 fi

@@ -2,6 +2,8 @@
 
 set -e
 here=$(readlink -f "$0" | xargs dirname)
+name=$(readlink -f "$0" | xargs basename)
+alias manager="sh ${here}/manager"
 
 
 # Parse arguments.
@@ -10,8 +12,8 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
-pyversion="$1"
-case ${pyversion} in
+version="$1"
+case ${version} in
     2.6.*|3.2.*|3.3.*|3.4.*)
         version_openssl=1.0.2
     ;;
@@ -19,35 +21,36 @@ case ${pyversion} in
         version_openssl=1.1.1
     ;;
     *)
-        echo "E: unsupported Python version: '${pyversion}'"
+        echo "E: unsupported Python version: '${version}'"
         exit 1
     ;;
 esac
+package_openssl=openssl-${version_openssl}
 
 # Install PyEnv if not present.
-pyenv_profile="$(sh ${here}/manager info pyenv-profile)"
-if [ ! -d $(sh ${here}/manager info pyenv-root) ]; then
-    sh ${here}/manager install pyenv
+pyenv_profile="$(manager info pyenv-profile)"
+if [ ! -d $(manager info pyenv-root) ]; then
+    manager install pyenv
     . ${pyenv_profile}
 fi
 
 # Install OpenSSL if not present.
 delete_openssl=0
-prefix="$(sh ${here}/manager info openssl-root ${version_openssl})"
+prefix="$(manager info openssl-root ${version_openssl})"
 if [ ! -d ${prefix} ]; then
     delete_openssl=1
-    sh ${here}/manager install openssl-${version_openssl}
+    manager install ${package_openssl}
 fi
 
 # Install a specific Python version.
-sh ${here}/manager enable openssl-${version_openssl}
+manager enable ${package_openssl}
 export CFLAGS="-I${prefix}/include"
 export LDFLAGS="-L${prefix}/lib"
-PATH="/usr/local/ssl/bin/openssl:${PATH}" pyenv install "${pyversion}"
-echo "pyenv shell ${pyversion}" >> ${pyenv_profile}
+PATH="/usr/local/ssl/bin/openssl:${PATH}" pyenv install "${version}"
+echo "pyenv shell ${version}" >> ${pyenv_profile}
 
 # Remove OpenSSL if installed on the fly.
-sh ${here}/manager disable openssl-${version_openssl}
+manager disable ${package_openssl}
 if [ ${delete_openssl} -eq 1 ]; then
-    sh ${here}/manager remove openssl-${version_openssl}
+    manager remove ${package_openssl}
 fi

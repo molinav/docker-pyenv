@@ -3,20 +3,23 @@
 set -e
 here=$(readlink -f "$0" | xargs dirname)
 name=$(readlink -f "$0" | xargs basename)
+alias manager="sh ${here}/manager"
 
 
-# Parse arguments.
+# Check number of arguments.
 if [ $# -gt 1 ]; then
     echo "E: The ${name} command takes at maximum one argument"
     exit 1
 fi
+
+# Parse arguments.
 version=1.1.1k
 if [ ! -z "$1" ]; then
     version="$1"
 fi
 regex="1\.(0\.2[a-u]?|1\.1[a-k]?)"
 if [ -z $(echo "${version}" | grep -E "^${regex}$" || true) ]; then
-    echo "Invalid openssl version '$1'"
+    echo "E: Invalid openssl version '$1'"
     exit 1
 fi
 
@@ -24,7 +27,7 @@ fi
 remote="https://www.openssl.org/source"
 pkgname="openssl-${version}"
 pkgfile="${pkgname}.tar.gz"
-prefix=$(sh ${here}/manager info openssl-root ${version})
+prefix=$(manager info openssl-root ${version})
 
 # Create temporary workspace.
 cwd="$(pwd)"

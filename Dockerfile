@@ -61,6 +61,9 @@ RUN /home/scripts/manager install python-pip python-setuptools python-wheel
 # Install basic scientific tools that may need compilation.
 RUN /home/scripts/manager install python-cython python-numpy python-scipy
 
+# Remove PyEnv build dependencies.
+RUN /home/scripts/manager remove pyenv-dev
+
 # Remove cached Python files.
 RUN pyenv_root=$(home/scripts/manager info pyenv-root)                      &&\
     find ${pyenv_root} -type f -name "*.pyc" | xargs rm -f {}               &&\

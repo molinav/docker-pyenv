@@ -3,8 +3,8 @@
 set -e
 here=$(readlink -f "$0" | xargs dirname)
 name=$(readlink -f "$0" | xargs basename)
-find ${here}/ -name "manager" -exec chmod +x {} \;
-find ${here}/ -name "manager-*" -exec chmod +x {} \;
+find ${here}/ -name "manager" -exec chmod 755 {} \;
+find ${here}/ -name "manager-*" -exec chmod 755 {} \;
 
 
 # Main script.

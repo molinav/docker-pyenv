@@ -31,7 +31,7 @@ def pip_extract(pkgname, dest=None):
     pkg = PACKAGES[pkgname]
     tmpdir = None
     try:
-        tmpdir = tempfile.mkdtemp()
+        tmpdir = tempfile.mkdtemp(prefix="tmp-get-pip-extract-")
         pkgpath = os.path.join(tmpdir, pkg["filename"])
         pkgdata = pkgdecode(pkg["filedata"])
         with open(pkgpath, "wb") as fd:
@@ -59,7 +59,7 @@ def pip_autoinstall(pkgname, *args):
     pkg = PACKAGES[pkgname]
     tmpdir = None
     try:
-        tmpdir = tempfile.mkdtemp()
+        tmpdir = tempfile.mkdtemp(prefix="tmp-get-pip-autoinstall-")
         pkgpath = os.path.join(tmpdir, pkg["filename"])
         pkgdata = pkgdecode(pkg["filedata"])
         with open(pkgpath, "wb") as fd:

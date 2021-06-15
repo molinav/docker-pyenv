@@ -27,7 +27,10 @@ class Package(object):
             self.REMOTE, self.dir1, self.dir2, self.dir3, self.filename)
 
     def download(self):
-        from urllib.request import urlopen
+        try:
+            from urllib.request import urlopen
+        except ImportError:
+            from urllib2 import urlopen
         conn = urlopen(self.url)
         self.data = conn.read()
 

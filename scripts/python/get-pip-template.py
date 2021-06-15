@@ -11,9 +11,11 @@
 # that actually works, all the required dependencies are appended to
 # the end of the file, as the usual `get-pip.py` does with `pip`.
 #
-# This script solves PyPI issue #974 that left Python 2.6 unsupported
-# due to the SNI requirement that the Python 2.6 `ssl` module misses:
+# This script solves PyPI issues #974 and #978 that left Python 2.6
+# unsupported due to the SNI requirement that the Python 2.6 `ssl`
+# module cannot provide:
 #     https://github.com/pypa/pypi-support/issues/974
+#     https://github.com/pypa/pypi-support/issues/978
 #
 # The script currently supports `cp26mu` under `manylinux1_x86_64`.
 #

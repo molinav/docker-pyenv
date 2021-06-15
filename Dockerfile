@@ -23,8 +23,6 @@
 #
 
 FROM ubuntu:20.04 AS host
-ARG version
-RUN echo "Building Docker container for Python $version..."
 
 # Set environment variables.
 ENV DEBIAN_FRONTEND=noninteractive
@@ -45,6 +43,7 @@ RUN /home/scripts/manager install pkg-config make gcc-full
 
 # Install Python through PyEnv.
 RUN /home/scripts/manager install pyenv-dev
+ARG version
 RUN /home/scripts/manager install python-${version}
 RUN /home/scripts/manager remove pyenv-dev
 

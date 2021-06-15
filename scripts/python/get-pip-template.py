@@ -17,6 +17,7 @@
 #
 # The script currently supports `cp26mu` under `manylinux1_x86_64`.
 #
+from __future__ import print_function
 
 
 def unpack(path, dest=None):
@@ -186,6 +187,7 @@ def main():
         # Reload `pip` again and patch it.
         imp.reload(imp.load_module("pip", *imp.find_module("pip")))
         pip_autopatch()
+        print("Successfully patched pip")
 
     finally:
 

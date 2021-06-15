@@ -23,7 +23,7 @@ fi
 pyversion=$(python -V 2>&1 | cut -d' ' -f2)
 case ${pyversion} in
     2.6.*)
-        maxversion=23
+        maxversion=37
     ;;
     2.7.*)
         maxversion=45

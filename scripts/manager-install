@@ -36,7 +36,7 @@ while [ $# -gt 0 ]; do
         ;;
         *)
             case "$1" in
-                blas|lapack|hdf4|hdf5|netcdf4|pkg-config|pyenv-dev)
+                blas|lapack|hdf4|hdf5|netcdf4|matplotlib-dev|pkg-config|pyenv-dev)
                     pkglist="$(manager info $1)"
                 ;;
                 *)

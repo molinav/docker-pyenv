@@ -59,8 +59,9 @@ RUN /home/scripts/manager install python-pip python-setuptools python-wheel
 # Install basic scientific tools that may need compilation.
 RUN /home/scripts/manager install python-cython python-numpy python-scipy
 
-# Remove PyEnv build dependencies.
+# Remove PyEnv build dependencies and add matplotlib build dependencies.
 RUN /home/scripts/manager remove pyenv-dev
+RUN /home/scripts/manager install matplotlib-dev
 
 # Remove cached Python files.
 RUN pyenv_root=$(home/scripts/manager info pyenv-root)                      &&\

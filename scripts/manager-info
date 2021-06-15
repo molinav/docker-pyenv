@@ -115,6 +115,22 @@ _info_netcdf4() {
 }
 
 
+_info_matplotlib_dev() {
+    case "$(_info_os_name)" in
+        Ubuntu)
+            echo "libfreetype-dev libpng-dev"
+        ;;
+        CentOS|RedHat)
+            echo "freetype-devel libpng-devel"
+        ;;
+        *)
+            echo "E: Unknown operating system '$(_info_os_name)'"
+            exit 1
+        ;;
+    esac
+}
+
+
 _info_openssl_root() {
     version=1.1.1k
     if [ ! -z "$1" ]; then
@@ -181,7 +197,7 @@ _info_pyenv_root() {
 
 
 case "$1" in
-    blas|lapack|hdf4|hdf5|netcdf4|pkg-config)
+    blas|lapack|hdf4|hdf5|netcdf4|matplotlib-dev|pkg-config)
         _info_$(echo $1 | tr - _)
     ;;
     openssl-root)

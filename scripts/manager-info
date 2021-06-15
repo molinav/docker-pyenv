@@ -130,6 +130,22 @@ _info_openssl_root() {
 }
 
 
+_info_pkg_config() {
+    case "$(_info_os_name)" in
+        Ubuntu)
+            echo "pkg-config"
+        ;;
+        CentOS|RedHat)
+            echo "pkgconfig"
+        ;;
+        *)
+            echo "E: Unknown operating system '$(_info_os_name)'"
+            exit 1
+        ;;
+    esac
+}
+
+
 _info_pyenv_dev() {
     case "$(_info_os_name)" in
         Ubuntu)
@@ -165,7 +181,7 @@ _info_pyenv_root() {
 
 
 case "$1" in
-    blas|lapack|hdf4|hdf5|netcdf4)
+    blas|lapack|hdf4|hdf5|netcdf4|pkg-config)
         _info_$(echo $1 | tr - _)
     ;;
     openssl-root)

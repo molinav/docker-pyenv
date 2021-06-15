@@ -40,8 +40,8 @@ COPY scripts /home/scripts
 # Install basic dependencies.
 RUN /home/scripts/manager install openssl ca-certificates wget git
 
-# Install GCC/GFortran compilers.
-RUN /home/scripts/manager install gcc gfortran make pkg-config
+# Install compilers and related tools.
+RUN /home/scripts/manager install pkg-config make gcc-full
 
 # Install BLAS/LAPACK.
 RUN /home/scripts/manager install blas lapack

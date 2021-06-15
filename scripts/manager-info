@@ -146,6 +146,22 @@ _info_openssl_root() {
 }
 
 
+_info_gcc_full() {
+    case "$(_info_os_name)" in
+        Ubuntu)
+            echo "gcc g++ gfortran"
+        ;;
+        CentOS|RedHat)
+            echo "gcc gcc-c++ gcc-gfortran"
+        ;;
+        *)
+            echo "E: Unknown operating system '$(_info_os_name)'"
+            exit 1
+        ;;
+    esac
+}
+
+
 _info_pkg_config() {
     case "$(_info_os_name)" in
         Ubuntu)
@@ -197,7 +213,10 @@ _info_pyenv_root() {
 
 
 case "$1" in
-    blas|lapack|hdf4|hdf5|netcdf4|matplotlib-dev|pkg-config)
+    blas|lapack|hdf4|hdf5|netcdf4|matplotlib-dev)
+        _info_$(echo $1 | tr - _)
+    ;;
+    gcc-full|pkg-config)
         _info_$(echo $1 | tr - _)
     ;;
     openssl-root)

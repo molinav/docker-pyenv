@@ -43,25 +43,21 @@ RUN /home/scripts/manager install openssl ca-certificates wget git
 # Install compilers and related tools.
 RUN /home/scripts/manager install pkg-config make gcc-full
 
-# Install BLAS/LAPACK.
-RUN /home/scripts/manager install blas lapack
-
-# Add system libraries for HDF4/HDF5/NetCDF4.
-RUN /home/scripts/manager install hdf4 hdf5 netcdf4
-
 # Install Python through PyEnv.
 RUN /home/scripts/manager install pyenv-dev
 RUN /home/scripts/manager install python-${version}
+RUN /home/scripts/manager remove pyenv-dev
+
+# Install end-user available build dependencies.
+RUN /home/scripts/manager install blas lapack
+RUN /home/scripts/manager install hdf4 hdf5 netcdf4
+RUN /home/scripts/manager install matplotlib-dev
 
 # Upgrade pip, wheel and setuptools if possible.
 RUN /home/scripts/manager install python-pip python-setuptools python-wheel
 
 # Install basic scientific tools that may need compilation.
 RUN /home/scripts/manager install python-cython python-numpy python-scipy
-
-# Remove PyEnv build dependencies and add matplotlib build dependencies.
-RUN /home/scripts/manager remove pyenv-dev
-RUN /home/scripts/manager install matplotlib-dev
 
 # Remove cached Python files.
 RUN pyenv_root=$(home/scripts/manager info pyenv-root)                      &&\

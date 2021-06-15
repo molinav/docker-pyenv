@@ -155,7 +155,7 @@ def main():
         pkgtext.append(pkg.textify())
     injection = "\n".join(pkgtext)
 
-    with open("get-pip.py", "w") as fd1:
+    with open("get-pip-py26.py", "w") as fd1:
         with open("get-pip-template.py", "r") as fd2:
             for line2 in fd2:
                 if line2 != "PACKAGES = {}\n":

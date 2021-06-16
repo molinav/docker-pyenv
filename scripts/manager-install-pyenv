@@ -1,0 +1,34 @@
+#! /bin/sh
+
+set -e
+here=$(readlink -f "$0" | xargs dirname)
+name=$(readlink -f "$0" | xargs basename)
+alias manager="sh ${here}/manager"
+
+
+# Check number of arguments.
+if [ $# -ne 0 ]; then
+    echo "E: The ${name} command takes no arguments"
+    exit 1
+fi
+
+# Download PyEnv.
+echo "Downloading PyEnv..."
+pyenv_root="$(manager info pyenv-root)"
+wget -q https://github.com/pyenv/pyenv/archive/master.tar.gz -O pyenv.tar.gz
+
+echo "Installing PyEnv..."
+tar -xf pyenv.tar.gz && mv pyenv-master "${pyenv_root}"
+rm -f pyenv.tar.gz
+
+# Add PyEnv initialisation to profile.
+pyenv_profile="$(manager info pyenv-profile)"
+echo "Configuring PyEnv..."
+echo "# Enable PyEnv environment" > ${pyenv_profile}
+echo 'export PYENV_ROOT="'${pyenv_root}'"' >> ${pyenv_profile}
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ${pyenv_profile}
+echo 'eval "$(pyenv init --path)"' >> ${pyenv_profile}
+echo 'eval "$(pyenv init -)"' >> ${pyenv_profile}
+echo "" >> ${pyenv_profile}
+
+echo "Done!"

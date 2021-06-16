@@ -22,14 +22,13 @@
 #     docker run --name py38-live --rm -it ubuntu-pyenv-3.8.4
 #
 
-FROM ubuntu:20.04
-ARG version
-RUN echo "Building Docker container for Python $version..."
+FROM ubuntu:20.04 AS host
 
-# Set basic info.
-ENV LANG=C.UTF-8
-ENV LANGUAGE=C.UTF-8
-ENV LC_ALL=C.UTF-8
+# Set environment variables.
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=POSIX
+ENV LANGUAGE=POSIX
+ENV LC_ALL=POSIX
 ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
@@ -37,41 +36,50 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY scripts /home/scripts
 
 # Install basic dependencies.
-RUN sh /home/scripts/install_base.sh
+RUN /home/scripts/manager install openssl ca-certificates wget git
 
-# Install GCC/GFortran compilers.
-RUN sh /home/scripts/install_compilers.sh
-
-# Install BLAS/LAPACK.
-RUN sh /home/scripts/install_lapack.sh
-
-# Add system libraries for HDF4/HDF5/NetCDF4.
-RUN sh /home/scripts/install_netcdf.sh
-
-# Install PyEnv dependencies.
-RUN sh /home/scripts/install_pyenv_build_lib.sh
-
-# Install OpenSSL 1.0.2 for Python < 3.5, != 2.7.
-RUN sh /home/scripts/install_openssl.sh $version
+# Install compilers and related tools.
+RUN /home/scripts/manager install pkg-config make gcc-full
 
 # Install Python through PyEnv.
-ENV PYENV_ROOT=/usr/local/share/pyenv
-ENV PATH=$PYENV_ROOT/bin:$PATH
-RUN sh /home/scripts/install_pyenv_python.sh $version
+RUN /home/scripts/manager install pyenv-dev
+ARG version
+RUN /home/scripts/manager install python-${version}
+RUN /home/scripts/manager remove pyenv-dev
+
+# Install end-user available build dependencies.
+RUN /home/scripts/manager install blas lapack
+RUN /home/scripts/manager install hdf4 hdf5 netcdf4
+RUN /home/scripts/manager install matplotlib-dev
 
 # Upgrade pip, wheel and setuptools if possible.
-RUN sh /home/scripts/install_python_base.sh $version
+RUN /home/scripts/manager install python-pip python-setuptools python-wheel
 
-# Install NumPy.
-RUN sh /home/scripts/install_python_numpy.sh $version
+# Install basic scientific tools that may need compilation.
+RUN /home/scripts/manager install python-cython python-numpy python-scipy
 
-# Install SciPy.
-RUN sh /home/scripts/install_python_scipy.sh $version
-
-# Install Cython.
-RUN sh /home/scripts/install_python_cython.sh $version
+# Remove cached Python files.
+RUN pyenv_root=$(home/scripts/manager info pyenv-root)                      &&\
+    find ${pyenv_root} -type f -name "*.pyc" | xargs rm -f                  &&\
+    find ${pyenv_root} -type f -name "*.pyo" | xargs rm -f                  &&\
+    find ${pyenv_root} -type d -name "__pycache__" | xargs rm -rf
 
 # Launch the bash shell with the default profile.
 RUN rm -rf /home/scripts
 RUN echo "Done!"
 CMD ["bash", "-l"]
+
+###############################################################################
+FROM scratch
+
+# Set environment variables.
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=POSIX
+ENV LANGUAGE=POSIX
+ENV LC_ALL=POSIX
+ENV TZ=UTC
+
+# Copy host.
+COPY --from=host / /
+CMD ["bash", "-l"]
+###############################################################################

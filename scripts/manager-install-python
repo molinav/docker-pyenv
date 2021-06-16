@@ -1,0 +1,61 @@
+#! /bin/sh
+
+set -e
+here=$(readlink -f "$0" | xargs dirname)
+name=$(readlink -f "$0" | xargs basename)
+alias manager="sh ${here}/manager"
+
+
+# Parse arguments.
+if [ $# -ne 1 ]; then
+    echo "E: The ${name} command takes one argument"
+    exit 1
+fi
+
+version="$1"
+case ${version} in
+    2.6.*)
+        version_openssl=1.0.2
+        export GET_PIP_URL=https://gist.githubusercontent.com/molinav/3b4f623edc5793154a0bdd9a78e739e9/raw/3926f90838f68dd923e396040a4ceaa6535e6083/get-pip-py26.py
+    ;;
+    3.2.*|3.3.*|3.4.*)
+        version_openssl=1.0.2
+        export GET_PIP_URL=
+    ;;
+    2.7.*|3.5.*|3.6.*|3.7.*|3.8.*|3.9.*)
+        version_openssl=1.1.1
+        export GET_PIP_URL=
+    ;;
+    *)
+        echo "E: unsupported Python version: '${version}'"
+        exit 1
+    ;;
+esac
+package_openssl=openssl-${version_openssl}
+
+# Install PyEnv if not present.
+pyenv_profile="$(manager info pyenv-profile)"
+if [ ! -d $(manager info pyenv-root) ]; then
+    manager install pyenv
+    . ${pyenv_profile}
+fi
+
+# Install OpenSSL if not present.
+delete_openssl=0
+if [ ! -d $(manager info openssl-root ${version_openssl}) ]; then
+    delete_openssl=1
+    manager install ${package_openssl}
+fi
+
+# Install a specific Python version.
+manager enable ${package_openssl}
+export CFLAGS="-I/usr/local/ssl/include"
+export LDFLAGS="-L/usr/local/ssl/lib"
+PATH="/usr/local/ssl/bin/openssl:${PATH}" pyenv install "${version}"
+echo "pyenv shell ${version}" >> ${pyenv_profile}
+
+# Remove OpenSSL if installed on the fly.
+manager disable ${package_openssl}
+if [ ${delete_openssl} -eq 1 ]; then
+    manager remove ${package_openssl}
+fi

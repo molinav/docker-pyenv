@@ -1,0 +1,73 @@
+#! /bin/sh
+
+set -e
+here=$(readlink -f "$0" | xargs dirname)
+name=$(readlink -f "$0" | xargs basename)
+alias manager="sh ${here}/manager"
+
+
+# Check number of arguments.
+if [ $# -eq 0 ]; then
+    echo "E: The ${name} command takes at least one argument"
+    exit 1
+fi
+
+# Parse arguments.
+repo_install=0
+while [ $# -gt 0 ]; do
+    case "$1" in
+        openssl-1.0.2)
+            sh ${here}/manager-install-openssl 1.0.2j
+        ;;
+        openssl-1.1.1)
+            sh ${here}/manager-install-openssl 1.1.1k
+        ;;
+        pyenv)
+            sh ${here}/manager-install-$1
+        ;;
+        python-pip|python-setuptools|python-wheel)
+            sh ${here}/manager-install-$1
+        ;;
+        python-cython|python-numpy|python-scipy)
+            sh ${here}/manager-install-$1
+        ;;
+        python-2.*|python-3.*)
+            sh ${here}/manager-install-python "$(echo $1 | cut -d- -f2)"
+        ;;
+        *)
+            case "$1" in
+                blas|lapack|hdf4|hdf5|netcdf4|matplotlib-dev|pyenv-dev)
+                    pkglist="$(manager info $1)"
+                ;;
+                gcc-full|pkg-config)
+                    pkglist="$(manager info $1)"
+                ;;
+                *)
+                    pkglist="$1"
+                ;;
+            esac
+            pkgman=$(manager info os-package-manager)
+            case ${pkgman} in
+                apt-get)
+                    norecommends=--no-install-recommends
+                ;;
+                zypper)
+                    norecommends=--no-recommends
+                ;;
+                *)
+                    norecommends=
+                ;;
+            esac
+            if [ ${repo_install} -eq 0 ]; then
+                manager update
+                repo_install=1
+            fi
+            ${pkgman} install -y ${norecommends} ${pkglist}
+        ;;
+    esac
+    shift
+done
+
+if [ ${repo_install} -eq 1 ]; then
+    manager clean
+fi

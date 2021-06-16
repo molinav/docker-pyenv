@@ -1,0 +1,29 @@
+#! /bin/sh
+
+set -e
+here=$(readlink -f "$0" | xargs dirname)
+name=$(readlink -f "$0" | xargs basename)
+alias manager="sh ${here}/manager"
+
+
+# Check number of arguments.
+if [ $# -ne 0 ]; then
+    echo "E: The ${name} command takes no arguments"
+    exit 1
+fi
+
+# Perform cleaning based on the package manager.
+pkgman=$(manager info os-package-manager)
+case ${pkgman} in
+    apt-get)
+        ${pkgman} clean
+        ${pkgman} autoclean
+        rm -rf /var/lib/apt/lists/*
+    ;;
+    yum)
+        ${pkgman} clean all
+    ;;
+    zypper)
+        ${pkgman} clean --all
+    ;;
+esac

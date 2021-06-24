@@ -7,7 +7,7 @@ alias manager="sh ${here}/manager"
 
 
 _info_os_name() {
-    echo $(grep ^NAME /etc/os-release | cut -d= -f 2 | sed -r 's/^"|"$//g')
+    echo $(grep ^ID= /etc/os-release | cut -d= -f 2 | sed -r 's/^"|"$//g')
 }
 
 
@@ -18,10 +18,10 @@ _info_os_version() {
 
 _info_os_package_manager() {
     case "$(_info_os_name)" in
-        Ubuntu)
+        ubuntu)
             echo apt-get
         ;;
-        CentOS|RedHat)
+        centos)
             echo yum
         ;;
         openSUSE*|SLES)
@@ -37,10 +37,10 @@ _info_os_package_manager() {
 
 _info_hdf4() {
     case "$(_info_os_name)" in
-        Ubuntu)
+        ubuntu)
             echo "libhdf4-0 libhdf4-dev"
         ;;
-        CentOS|RedHat)
+        centos)
             echo "hdf hdf-devel"
         ;;
         *)
@@ -53,10 +53,10 @@ _info_hdf4() {
 
 _info_hdf5() {
     case "$(_info_os_name)" in
-        Ubuntu)
+        ubuntu)
             echo "libhdf5-103 libhdf5-dev"
         ;;
-        CentOS|RedHat)
+        centos)
             echo "hdf5 hdf5-devel"
         ;;
         *)
@@ -69,10 +69,10 @@ _info_hdf5() {
 
 _info_blas() {
     case "$(_info_os_name)" in
-        Ubuntu)
+        ubuntu)
             echo "libblas3 libblas-dev"
         ;;
-        CentOS|RedHat)
+        centos)
             echo "blas blas-devel"
         ;;
         *)
@@ -85,10 +85,10 @@ _info_blas() {
 
 _info_lapack() {
     case "$(_info_os_name)" in
-        Ubuntu)
+        ubuntu)
             echo "liblapack3 liblapack-dev"
         ;;
-        CentOS|RedHat)
+        centos)
             echo "lapack lapack-devel"
         ;;
         *)
@@ -101,10 +101,10 @@ _info_lapack() {
 
 _info_netcdf4() {
     case "$(_info_os_name)" in
-        Ubuntu)
+        ubuntu)
             echo "libnetcdf15 libnetcdf-dev"
         ;;
-        CentOS|RedHat)
+        centos)
             echo "netcdf netcdf-devel"
         ;;
         *)
@@ -117,10 +117,10 @@ _info_netcdf4() {
 
 _info_matplotlib_dev() {
     case "$(_info_os_name)" in
-        Ubuntu)
+        ubuntu)
             echo "libfreetype-dev libpng-dev"
         ;;
-        CentOS|RedHat)
+        centos)
             echo "freetype-devel libpng-devel"
         ;;
         *)
@@ -148,10 +148,10 @@ _info_openssl_root() {
 
 _info_gcc_full() {
     case "$(_info_os_name)" in
-        Ubuntu)
+        ubuntu)
             echo "gcc g++ gfortran"
         ;;
-        CentOS|RedHat)
+        centos)
             echo "gcc gcc-c++ gcc-gfortran"
         ;;
         *)
@@ -164,10 +164,10 @@ _info_gcc_full() {
 
 _info_pkg_config() {
     case "$(_info_os_name)" in
-        Ubuntu)
+        ubuntu)
             echo "pkg-config"
         ;;
-        CentOS|RedHat)
+        centos)
             echo "pkgconfig"
         ;;
         *)
@@ -180,14 +180,14 @@ _info_pkg_config() {
 
 _info_pyenv_dev() {
     case "$(_info_os_name)" in
-        Ubuntu)
+        ubuntu)
             echo "
                 build-essential llvm libssl-dev tk-dev                    \
                 libncursesw5-dev libreadline-dev libsqlite3-dev               \
                 libffi-dev xz-utils zlib1g-dev libbz2-dev liblzma-dev
             " | xargs
         ;;
-        CentOS|RedHat)
+        centos)
             echo "
                 @development findutils llvm openssl-devel                 \
                 readline-devel sqlite sqlite-devel                            \

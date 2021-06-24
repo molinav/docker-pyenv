@@ -36,27 +36,27 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY scripts /home/scripts
 
 # Install basic dependencies.
-RUN /home/scripts/manager install openssl ca-certificates wget git
+RUN sh /home/scripts/manager install openssl ca-certificates wget git
 
 # Install compilers and related tools.
-RUN /home/scripts/manager install pkg-config make gcc-full
+RUN sh /home/scripts/manager install pkg-config make gcc-full
 
 # Install Python through PyEnv.
-RUN /home/scripts/manager install pyenv-dev
+RUN sh /home/scripts/manager install pyenv-dev
 ARG version
-RUN /home/scripts/manager install python-${version}
-RUN /home/scripts/manager remove pyenv-dev
+RUN sh /home/scripts/manager install python-${version}
+RUN sh /home/scripts/manager remove pyenv-dev
 
 # Install end-user available build dependencies.
-RUN /home/scripts/manager install blas lapack
-RUN /home/scripts/manager install hdf4 hdf5 netcdf4
-RUN /home/scripts/manager install matplotlib-dev
+RUN sh /home/scripts/manager install blas lapack
+RUN sh /home/scripts/manager install hdf4 hdf5 netcdf4
+RUN sh /home/scripts/manager install matplotlib-dev
 
 # Upgrade pip, wheel and setuptools if possible.
-RUN /home/scripts/manager install python-pip python-setuptools python-wheel
+RUN sh /home/scripts/manager install python-pip python-setuptools python-wheel
 
 # Install basic scientific tools that may need compilation.
-RUN /home/scripts/manager install python-cython python-numpy python-scipy
+RUN sh /home/scripts/manager install python-cython python-numpy python-scipy
 
 # Remove cached Python files.
 RUN pyenv_root=$(home/scripts/manager info pyenv-root)                      &&\

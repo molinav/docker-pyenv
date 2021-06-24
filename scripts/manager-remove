@@ -32,8 +32,13 @@ while [ $# -gt 0 ]; do
         ;;
         *)
             case "$1" in
-                blas|lapack|hdf4|hdf5|netcdf4|pyenv-dev)
+                gcc-full|pkg-config|blas|lapack|matplotlib-dev|hdf4|hdf5|netcdf4)
                     pkglist="$(manager info $1)"
+                ;;
+                pyenv-dev)
+                    # findutils cannot be removed.
+                    pkglist="$(manager info $1)"
+                    pkglist="$(echo ${pkglist} | sed 's|\(findutils\s\?\)||')"
                 ;;
                 *)
                     pkglist="$1"

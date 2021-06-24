@@ -26,7 +26,7 @@ pyenv_profile="$(manager info pyenv-profile)"
 echo "Configuring PyEnv..."
 echo "# Enable PyEnv environment" > ${pyenv_profile}
 echo 'export PYENV_ROOT="'${pyenv_root}'"' >> ${pyenv_profile}
-echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ${pyenv_profile}
+echo 'export PATH="${PYENV_ROOT}/bin:$PATH"' >> ${pyenv_profile}
 echo 'eval "$(pyenv init --path)"' >> ${pyenv_profile}
 echo 'eval "$(pyenv init -)"' >> ${pyenv_profile}
 echo "" >> ${pyenv_profile}

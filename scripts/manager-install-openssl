@@ -58,6 +58,9 @@ echo "Linking CA certificates..."
 if [ -d ${prefix}/ssl ]; then
     rm -rf ${prefix}/ssl/certs
     ln -s /etc/ssl/certs ${prefix}/ssl/certs
+    if [ -f /etc/pki/tls/cert.pem ]; then
+        ln -s /etc/pki/tls/cert.pem ${prefix}/ssl/cert.pem
+    fi
 fi
 
 echo "Cleaning up..."

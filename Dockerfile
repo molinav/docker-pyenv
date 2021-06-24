@@ -56,7 +56,7 @@ RUN sh /home/scripts/manager install hdf4 hdf5 netcdf4
 RUN sh /home/scripts/manager install matplotlib-dev
 
 # Upgrade pip, wheel and setuptools if possible.
-RUN sh /home/scripts/manager install python-pip python-setuptools python-wheel
+RUN sh /home/scripts/manager install python-pip python-wheel python-setuptools
 
 # Install basic scientific tools that may need compilation.
 RUN sh /home/scripts/manager install python-cython python-numpy python-scipy

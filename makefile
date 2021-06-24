@@ -12,7 +12,9 @@ build:
             pyab=$(shell echo $(version) | cut -d. -f1,2);                    \
 	    tag="ubuntu-pyenv:$$pyab";                                        \
 	    echo "Building $$tag...";                                         \
-            docker build -q --tag "$$tag" . --build-arg version="$(version)"; \
+            docker build -q --tag "$$tag" .                                   \
+	        --build-arg BASE_IMAGE="ubuntu:20.04"                         \
+	        --build-arg version="$(version)";                             \
         fi
 
 

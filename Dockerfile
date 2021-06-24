@@ -22,7 +22,8 @@
 #     docker run --name py38-live --rm -it ubuntu-pyenv-3.8.4
 #
 
-FROM ubuntu:20.04 AS host
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE} AS host
 
 # Set environment variables.
 ENV DEBIAN_FRONTEND=noninteractive

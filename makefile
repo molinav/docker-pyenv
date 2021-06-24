@@ -10,10 +10,10 @@ build:
             done                                                              \
 	else                                                                  \
             pyab=$(shell echo $(python) | cut -d. -f1,2);                     \
-	    tag="ubuntu-pyenv:$$pyab";                                        \
+	    tag="$(shell echo $(base) | cut -d: -f1)-pyenv:$$pyab";           \
 	    echo "Building $$tag...";                                         \
             docker build -q --tag "$$tag" .                                   \
-	        --build-arg BASE_IMAGE="ubuntu:20.04"                         \
+	        --build-arg BASE_IMAGE="$(base)"                              \
 	        --build-arg PYTHON_VERSION="$(python)";                       \
         fi
 

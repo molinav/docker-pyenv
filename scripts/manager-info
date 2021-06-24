@@ -182,16 +182,15 @@ _info_pyenv_dev() {
     case "$(_info_os_name)" in
         ubuntu)
             echo "
-                build-essential llvm libssl-dev tk-dev                    \
+                build-essential llvm libssl-dev tk-dev                        \
                 libncursesw5-dev libreadline-dev libsqlite3-dev               \
                 libffi-dev xz-utils zlib1g-dev libbz2-dev liblzma-dev
             " | xargs
         ;;
         centos)
             echo "
-                @development findutils llvm openssl-devel                 \
-                readline-devel sqlite sqlite-devel                            \
-                libffi-devel xz xz-devel bzip2 bzip2-devel zlib-devel
+                @development findutils llvm openssl-devel readline-devel      \
+                sqlite-devel libffi-devel xz-devel bzip2-devel zlib-devel
             " | xargs
         ;;
         *)

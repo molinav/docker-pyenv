@@ -14,7 +14,7 @@ build:
 	    echo "Building $$tag...";                                         \
             docker build -q --tag "$$tag" .                                   \
 	        --build-arg BASE_IMAGE="ubuntu:20.04"                         \
-	        --build-arg version="$(version)";                             \
+	        --build-arg PYTHON_VERSION="$(version)";                      \
         fi
 
 

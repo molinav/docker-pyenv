@@ -15,7 +15,7 @@
 # To build a specific image, you need to specify the Python version as
 # build argument. For example, to install Python 3.8.4, you must type:
 #
-#     docker build --tag ubuntu-pyenv-3.8.4 . --build-arg version=3.8.4
+#     docker build --tag ubuntu-pyenv-3.8.4 . --build-arg PYTHON_VERSION=3.8.4
 #
 # A live interactive session can be launched afterwards by typing:
 #
@@ -44,8 +44,8 @@ RUN sh /home/scripts/manager install pkg-config make gcc-full
 
 # Install Python through PyEnv.
 RUN sh /home/scripts/manager install pyenv-dev
-ARG version
-RUN sh /home/scripts/manager install python-${version}
+ARG PYTHON_VERSION
+RUN sh /home/scripts/manager install python-${PYTHON_VERSION}
 RUN sh /home/scripts/manager remove pyenv-dev
 
 # Install end-user available build dependencies.

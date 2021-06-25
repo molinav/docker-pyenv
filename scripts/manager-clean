@@ -32,7 +32,16 @@ case ${pkgman} in
     ;;
 esac
 
-# Perform cleaning of generic folders.
+# Remove logs and temp files.
 rm -rf /tmp/*
 rm -rf /var/tmp/*
 rm -rf /var/log/*
+
+# Remove docs if any.
+license_regex=".*/\(COPYING\|copyright\|LICEN[CS]E\|README\)*"
+find /usr/share/doc -type f -not -regex "${license_regex}" | xargs rm -rf
+find /usr/share/doc -type d | xargs rmdir -p 2>/dev/null | true
+rm -rf /usr/share/man/*
+
+# Remove locales.
+rm -rf /usr/share/locale/*

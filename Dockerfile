@@ -40,7 +40,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY scripts /home/scripts
 
 # Install basic dependencies.
-RUN sh /home/scripts/manager install openssl ca-certificates wget git
+RUN sh /home/scripts/manager install openssl ca-certificates wget git tar gzip
 
 # Install compilers and related tools.
 RUN sh /home/scripts/manager install pkg-config make gcc-full

@@ -28,3 +28,6 @@ case ${pkgman} in
         ${pkgman} clean --all
     ;;
 esac
+
+# Reload udev rules.
+udevadm control --reload-rules && udevadm trigger

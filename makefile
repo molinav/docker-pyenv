@@ -4,40 +4,44 @@ ALL = $(shell echo "2.6.9 2.7.18 3.2.6 3.3.7 3.4.10                           \
 
 build:
 
-	@if [ "$(version)" = "all" ]; then                                    \
-            for v in $(ALL); do                                               \
-                make build version="$$v";                                     \
-            done                                                              \
+	@if [ "$(python)" = "all" ]; then                                     \
+	    for v in $(ALL); do                                               \
+	        make build python="$$v";                                      \
+	    done                                                              \
 	else                                                                  \
-            pyab=$(shell echo $(version) | cut -d. -f1,2);                    \
-	    tag="ubuntu-pyenv:$$pyab";                                        \
+	    distro="$(shell echo $(base) | cut -d: -f1)";                     \
+	    pyab=$(shell echo $(python) | cut -d. -f1,2);                     \
+	    tag="$$distro-pyenv:$$pyab";                                      \
 	    echo "Building $$tag...";                                         \
-            docker build -q --tag "$$tag" . --build-arg version="$(version)"; \
-        fi
+	    docker build --tag "$$tag" .                                      \
+	        --build-arg BASE_IMAGE="$(base)"                              \
+	        --build-arg PYTHON_VERSION="$(python)";                       \
+	fi
 
 
 publish:
 
-	@if [ "$(version)" = "all" ]; then                                    \
-            for v in $(ALL); do                                               \
-                make publish version="$$v";                                   \
-            done;                                                             \
-	    make publish version=latest;                                      \
+	@if [ "$(python)" = "all" ]; then                                     \
+	    for v in $(ALL); do                                               \
+	        make publish python="$$v";                                    \
+	    done;                                                             \
+	    make publish python=latest;                                       \
 	else                                                                  \
 	    user=$$(docker info 2>/dev/null | sed -n '/[ ]*Username:/p'       \
 	            | rev | cut -d' ' -f1 | rev);                             \
-	    if [ "$(version)" = "latest" ]; then                              \
-                pyab=$$(echo $(ALL) | rev | cut -d' ' -f1 | rev               \
-		        | cut -d. -f1,2);                                     \
-	        tag="ubuntu-pyenv:$$pyab";                                    \
-	        repotag=$$user/ubuntu-pyenv:latest;                           \
+	    distro="$(shell echo $(base) | cut -d: -f1)";                     \
+	    if [ "$(python)" = "latest" ]; then                               \
+	        pyab=$$(echo $(ALL) | rev | cut -d' ' -f1 | rev               \
+	                | cut -d. -f1,2);                                     \
+	        tag="$$distro-pyenv:$$pyab";                                  \
+	        repotag=$$user/$$distro-pyenv:latest;                         \
 	    else                                                              \
-                pyab=$$(echo $(version) | cut -d. -f1,2);                     \
-	        tag="ubuntu-pyenv:$$pyab";                                    \
+	        pyab=$$(echo $(python) | cut -d. -f1,2);                      \
+	        tag="$$distro-pyenv:$$pyab";                                  \
 	        repotag=$$user/$$tag;                                         \
 	    fi;                                                               \
 	    id=$$(docker images -q $$tag);                                    \
 	    echo "Publishing $$repotag... $$id";                              \
 	    docker tag "$$id" "$$repotag";                                    \
 	    docker push "$$repotag";                                          \
-        fi
+	fi

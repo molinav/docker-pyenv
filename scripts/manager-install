@@ -36,10 +36,13 @@ while [ $# -gt 0 ]; do
         ;;
         *)
             case "$1" in
-                blas|lapack|hdf4|hdf5|netcdf4|matplotlib-dev|pyenv-dev)
+                gcc-full|pkg-config|blas|lapack|matplotlib-dev|pyenv-dev)
                     pkglist="$(manager info $1)"
                 ;;
-                gcc-full|pkg-config)
+                hdf4|hdf5|netcdf4)
+                    if [ "$(manager info os-name)" = "centos" ]; then
+                        manager install epel-release
+                    fi
                     pkglist="$(manager info $1)"
                 ;;
                 *)

@@ -16,13 +16,13 @@ fi
 pkgman=$(manager info os-package-manager)
 case ${pkgman} in
     yum)
-        update=update -y
+        update="update -y"
     ;;
     zypper)
-        update=refresh
+        update="refresh"
     ;;
     *)
-        update=update
+        update="update"
     ;;
 esac
 

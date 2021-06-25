@@ -26,5 +26,7 @@ case ${pkgman} in
     ;;
     zypper)
         ${pkgman} clean --all
+        rm -rf /var/log/*
+        rm -rf /var/cache/zypp/*
     ;;
 esac

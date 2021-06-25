@@ -43,6 +43,9 @@ _info_hdf4() {
         centos)
             echo "hdf hdf-devel"
         ;;
+        opensuse*|sles)
+            echo "libhdf4 hdf-devel hdf-devel-static"
+        ;;
         *)
             echo "E:Unknown operating system '$(_info_os_name)'"
             exit 1
@@ -58,6 +61,9 @@ _info_hdf5() {
         ;;
         centos)
             echo "hdf5 hdf5-devel hdf5-static"
+        ;;
+        opensuse*|sles)
+            echo "libhdf5 hdf5-devel hdf5-devel-static"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
@@ -75,6 +81,9 @@ _info_blas() {
         centos)
             echo "blas blas-devel blas-static"
         ;;
+        opensuse*|sles)
+            echo "libblas3 blas-devel blas-devel-static"
+        ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
             exit 1
@@ -90,6 +99,9 @@ _info_lapack() {
         ;;
         centos)
             echo "lapack lapack-devel lapack-static"
+        ;;
+        opensuse*|sles)
+            echo "liblapack3 lapack-devel lapack-devel-static"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
@@ -107,6 +119,9 @@ _info_netcdf4() {
         centos)
             echo "netcdf netcdf-devel netcdf-static"
         ;;
+        opensuse*|sles)
+            echo "libnetcdf18 netcdf-devel netcdf-devel-static"
+        ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
             exit 1
@@ -122,6 +137,9 @@ _info_matplotlib_dev() {
         ;;
         centos)
             echo "freetype-devel libpng-devel"
+        ;;
+        opensuse*|sles)
+            echo "freetype-devel libpng16-devel"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
@@ -154,6 +172,9 @@ _info_gcc_full() {
         centos)
             echo "gcc gcc-c++ gcc-gfortran"
         ;;
+        opensuse*|sles)
+            echo "gcc gcc-c++ gcc-fortran"
+        ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
             exit 1
@@ -169,6 +190,9 @@ _info_pkg_config() {
         ;;
         centos)
             echo "pkgconfig"
+        ;;
+        opensuse*|sles)
+            echo "pkg-config"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
@@ -191,6 +215,12 @@ _info_pyenv_dev() {
             echo "
                 @development findutils llvm openssl-devel readline-devel      \
                 sqlite-devel libffi-devel xz-devel bzip2-devel zlib-devel
+            " | xargs
+        ;;
+        opensuse*|sles)
+            echo "
+                gcc automake tk-devel ncurses-devel readline-devel            \
+                sqlite3-devel libffi-devel xz-devel libbz2-devel zlib-devel
             " | xargs
         ;;
         *)

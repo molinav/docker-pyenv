@@ -1,5 +1,4 @@
-ALL = $(shell echo "2.6.9 2.7.18 3.2.6 3.3.7 3.4.10                           \
-                    3.5.10 3.6.13 3.7.10 3.8.10 3.9.5")
+ALL = $(shell echo "2.6 2.7 3.2 3.3 3.4 3.5 3.6 3.7 3.8 3.9")
 
 
 build:
@@ -10,8 +9,7 @@ build:
 	    done                                                              \
 	else                                                                  \
 	    distro="$(shell echo $(base) | cut -d: -f1)";                     \
-	    pyab=$(shell echo $(python) | cut -d. -f1,2);                     \
-	    tag="$$distro-pyenv:$$pyab";                                      \
+	    tag="$$distro-pyenv:$(python)";                                   \
 	    echo "Building $$tag...";                                         \
 	    docker build --tag "$$tag" .                                      \
 	        --build-arg BASE_IMAGE="$(base)"                              \
@@ -31,13 +29,11 @@ publish:
 	            | rev | cut -d' ' -f1 | rev);                             \
 	    distro="$(shell echo $(base) | cut -d: -f1)";                     \
 	    if [ "$(python)" = "latest" ]; then                               \
-	        pyab=$$(echo $(ALL) | rev | cut -d' ' -f1 | rev               \
-	                | cut -d. -f1,2);                                     \
-	        tag="$$distro-pyenv:$$pyab";                                  \
+	        latest="$(shell echo $(ALL) | rev | cut -d' ' -f1 | rev)";    \
+	        tag="$$distro-pyenv:$$latest";                                \
 	        repotag=$$user/$$distro-pyenv:latest;                         \
 	    else                                                              \
-	        pyab=$$(echo $(python) | cut -d. -f1,2);                      \
-	        tag="$$distro-pyenv:$$pyab";                                  \
+	        tag="$$distro-pyenv:$(python)";                               \
 	        repotag=$$user/$$tag;                                         \
 	    fi;                                                               \
 	    id=$$(docker images -q $$tag);                                    \

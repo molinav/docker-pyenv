@@ -14,15 +14,19 @@ fi
 
 version="$1"
 case ${version} in
-    2.6.*)
+    2.6|2.6.*)
         version_openssl=1.0.2
         export GET_PIP_URL=https://gist.githubusercontent.com/molinav/3b4f623edc5793154a0bdd9a78e739e9/raw/3926f90838f68dd923e396040a4ceaa6535e6083/get-pip-py26.py
     ;;
-    3.2.*|3.3.*|3.4.*)
+    2.7|2.7.*)
+        version_openssl=1.1.1
+        export GET_PIP_URL=
+    ;;
+    3.[234]|3.2.*|3.3.*|3.4.*)
         version_openssl=1.0.2
         export GET_PIP_URL=
     ;;
-    2.7.*|3.5.*|3.6.*|3.7.*|3.8.*|3.9.*)
+    3.[56789]|3.5.*|3.6.*|3.7.*|3.8.*|3.9.*)
         version_openssl=1.1.1
         export GET_PIP_URL=
     ;;
@@ -39,6 +43,14 @@ if [ ! -d $(manager info pyenv-root) ]; then
     manager install pyenv
     . ${pyenv_profile}
 fi
+
+# Infer complete Python version if the user only gave major + minor.
+case ${version} in
+    2.[67]|3.[23456789])
+        regex=$(echo "^\ \ ${version}.[0-9]\+$" | sed 's|\.|\\\.|g')
+        version=$(pyenv install --list | grep "${regex}" | tail -n1 | xargs)
+    ;;
+esac
 
 # Install OpenSSL if not present.
 delete_openssl=0

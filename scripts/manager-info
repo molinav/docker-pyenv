@@ -219,7 +219,7 @@ _info_pyenv_dev() {
         ;;
         opensuse*|sles)
             echo "
-                gcc automake tk-devel ncurses-devel readline-devel            \
+                automake tk-devel ncurses-devel readline-devel                \
                 sqlite3-devel libffi-devel xz-devel libbz2-devel zlib-devel
             " | xargs
         ;;

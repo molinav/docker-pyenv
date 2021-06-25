@@ -47,15 +47,19 @@ while [ $# -gt 0 ]; do
             pkgman=$(manager info os-package-manager)
             case ${pkgman} in
                 apt-get)
-                    remove=purge
-                    autoremove=autoremove
+                    remove="purge"
+                    autoremove="autoremove"
                 ;;
                 yum)
-                    remove=remove
-                    autoremove=autoremove
+                    remove="remove"
+                    autoremove="autoremove"
+                ;;
+                zypper)
+                    remove="remove --clean-deps"
+                    autoremove=
                 ;;
                 *)
-                    remove=remove
+                    remove="remove"
                     autoremove=
                 ;;
             esac

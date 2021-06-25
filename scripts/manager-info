@@ -57,7 +57,7 @@ _info_hdf5() {
             echo "libhdf5-103 libhdf5-dev"
         ;;
         centos)
-            echo "hdf5 hdf5-devel"
+            echo "hdf5 hdf5-devel hdf5-static"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
@@ -73,7 +73,7 @@ _info_blas() {
             echo "libblas3 libblas-dev"
         ;;
         centos)
-            echo "blas blas-devel"
+            echo "blas blas-devel blas-static"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
@@ -89,7 +89,7 @@ _info_lapack() {
             echo "liblapack3 liblapack-dev"
         ;;
         centos)
-            echo "lapack lapack-devel"
+            echo "lapack lapack-devel lapack-static"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
@@ -105,7 +105,7 @@ _info_netcdf4() {
             echo "libnetcdf15 libnetcdf-dev"
         ;;
         centos)
-            echo "netcdf netcdf-devel"
+            echo "netcdf netcdf-devel netcdf-static"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"

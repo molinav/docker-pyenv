@@ -22,6 +22,7 @@ case ${pkgman} in
     ;;
     yum)
         ${pkgman} clean all
+        rpm --rebuilddb
     ;;
     zypper)
         ${pkgman} clean --all

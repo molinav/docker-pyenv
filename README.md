@@ -1,18 +1,18 @@
-# Ubuntu-PyEnv Dockerfile
+# Docker-PyEnv
 
-This repository contains a Dockerfile based on [Ubuntu] to create containers
-with a specific Python version.
+This repository creates GNU/Linux Docker images with a specific Python version
+using PyEnv. Current tested base images include [Ubuntu:20.04] and [CentOS:7].
+
 
 ## Features
 
-The base Docker image is [Ubuntu:20.04] and the additional layers provide the
-following libraries:
+The additional layers provide the following libraries:
 
 - GCC and GFortran.
 - BLAS and LAPACK.
 - HDF4, HDF5 and NetCDF4.
 - PyEnv with one specific Python version preinstalled.
-- Latest available working versions of [`pip`], [`setuptools`] and [`wheel`].
+- Latest available working versions of [`pip`], [`wheel`] and [`setuptools`].
 - Latest available working versions of [`numpy`], [`scipy`] and [`cython`].
 
 Below there is a summary table with the preinstalled packages:
@@ -31,17 +31,26 @@ Below there is a summary table with the preinstalled packages:
 
 1. Install [Docker](https://www.docker.com/).
 
-2. Download the [automated build](https://hub.docker.com/r/molinav/ubuntu-pyenv)
-   from the public [Docker Hub Registry](https://registry.hub.docker.com/):
+2. Download the automated build from the public
+   [Docker Hub Registry](https://registry.hub.docker.com/):
 
-    ```sh
-    docker pull molinav/ubuntu-pyenv
-    ```
+    * For [Ubuntu:20.04]:
+
+        ```sh
+        docker pull molinav/ubuntu-pyenv
+        ```
+
+    * For [CentOS:7]:
+
+        ```sh
+        docker pull molinav/centos-pyenv
+        ```
 
 ## Usage
 
 ```sh
 docker run --rm -it molinav/ubuntu-pyenv
+docker run --rm -it molinav/centos-pyenv
 ```
 
 If not running interactively, you must configure the shell manually by calling
@@ -52,10 +61,10 @@ which will activate [PyEnv] and configure the shell to use the preinstalled
 Python version.
 
 
-[Ubuntu]:
-http://www.ubuntu.com/
 [Ubuntu:20.04]:
 https://hub.docker.com/_/ubuntu
+[CentOS:7]:
+https://hub.docker.com/_/centos
 [PyEnv]:
 https://github.com/pyenv/pyenv
 [`pip`]:

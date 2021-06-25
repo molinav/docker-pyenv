@@ -2,18 +2,19 @@
 # Copyright (C) 2020-2021 Víctor Molina García
 # MIT License
 #
-# Dockerfile to create Ubuntu containers with a minimal installation of
-# Python environments 2.6+ and 3.2+ through PyEnv. Prebuilt images are
-# available at:
+# Dockerfile to create GNU/Linux containers with a minimal installation
+# of Python environments 2.6+ and 3.2+ through PyEnv. Prebuilt images
+# for Ubuntu 20.04 and CentOS 7 are available at:
 #
 #     https://hub.docker.com/r/molinav/ubuntu-pyenv
+#     https://hub.docker.com/r/molinav/centos-pyenv
 #
 # If not running interactively, you must configure the shell manually
 # by calling `. /etc/profile`, which will activate PyEnv and set the
 # shell to the installed Python version.
 #
-# To build a specific image, you need to specify the Python version as
-# build argument. For example, to install Python 3.8.4, you must type:
+# To build a specific image, you must specify the base image and Python
+# version as build arguments. For example, for Python 3.8.4:
 #
 #     docker build --tag ubuntu-pyenv-3.8.4 .                          \
 #                  --build-arg BASE_IMAGE=ubuntu:20.04                 \

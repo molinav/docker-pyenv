@@ -47,7 +47,8 @@ fi
 # Infer complete Python version if the user only gave major + minor.
 case ${version} in
     2.[67]|3.[23456789])
-        version="$(pyenv install --list | grep '^  3\.9\.[0-9]\+$' | tail -n1)"
+        version="$(pyenv install --list                                       \
+                   | grep '^  3\.9\.[0-9]\+$' | tail -n1 | xargs)"
     ;;
 esac
 

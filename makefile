@@ -29,8 +29,8 @@ publish:
 	            | rev | cut -d' ' -f1 | rev);                             \
 	    distro="$(shell echo $(base) | cut -d: -f1)";                     \
 	    if [ "$(python)" = "latest" ]; then                               \
-	        latest=$$(echo $(ALL) | rev | cut -d' ' -f1 | rev);           \
-	        tag="$$distro-pyenv:$$latest                                  \
+	        latest="$(shell echo $(ALL) | rev | cut -d' ' -f1 | rev)";    \
+	        tag="$$distro-pyenv:$$latest";                                \
 	        repotag=$$user/$$distro-pyenv:latest;                         \
 	    else                                                              \
 	        tag="$$distro-pyenv:$(python)";                               \

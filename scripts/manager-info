@@ -19,13 +19,13 @@ _info_os_version() {
 _info_os_package_manager() {
     case "$(_info_os_name)" in
         ubuntu)
-            echo apt-get
+            echo "apt-get"
         ;;
         centos)
-            echo yum
+            echo "yum"
         ;;
-        openSUSE*|SLES)
-            echo zypper
+        opensuse*|sles)
+            echo "zypper"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"

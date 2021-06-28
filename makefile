@@ -8,11 +8,10 @@ build:
 	        make build python="$$v";                                      \
 	    done                                                              \
 	else                                                                  \
-	    distro="$(shell echo $(base) | cut -d: -f1)";                     \
-	    if [ "$$distro" = "opensuse/leap" ]; then                         \
-	        distro="opensuse";                                            \
-	    fi;                                                               \
-	    tag="$$distro-pyenv:$(python)";                                   \
+	    distro="$(shell echo $(base)                                      \
+	              | sed 's|\(opensuse\)/leap|\1|'                         \
+	              | sed 's|:|-|')";                                       \
+	    tag="pyenv:$(python)-$$distro";                                   \
 	    echo "Building $$tag...";                                         \
 	    docker build --tag "$$tag" .                                      \
 	        --build-arg BASE_IMAGE="$(base)"                              \
@@ -30,16 +29,15 @@ publish:
 	else                                                                  \
 	    user=$$(docker info 2>/dev/null | sed -n '/[ ]*Username:/p'       \
 	            | rev | cut -d' ' -f1 | rev);                             \
-	    distro="$(shell echo $(base) | cut -d: -f1)";                     \
-	    if [ "$$distro" = "opensuse/leap" ]; then                         \
-	        distro="opensuse";                                            \
-	    fi;                                                               \
+	    distro="$(shell echo $(base)                                      \
+	              | sed 's|\(opensuse\)/leap|\1|'                         \
+	              | sed 's|:|-|')";                                       \
 	    if [ "$(python)" = "latest" ]; then                               \
 	        latest="$(shell echo $(ALL) | rev | cut -d' ' -f1 | rev)";    \
-	        tag="$$distro-pyenv:$$latest";                                \
-	        repotag=$$user/$$distro-pyenv:latest;                         \
+	        tag="pyenv:$$latest-$$distro";                                \
+	        repotag=$$user/pyenv:latest-$$distro;                         \
 	    else                                                              \
-	        tag="$$distro-pyenv:$(python)";                               \
+	        tag="pyenv:$(python)-$$distro";                               \
 	        repotag=$$user/$$tag;                                         \
 	    fi;                                                               \
 	    id=$$(docker images -q $$tag);                                    \

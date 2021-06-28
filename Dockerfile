@@ -6,9 +6,7 @@
 # of Python environments 2.6+ and 3.2+ through PyEnv. Prebuilt images
 # for Ubuntu 20.04, CentOS 7 and openSUSE 15.3 are available at:
 #
-#     https://hub.docker.com/r/molinav/ubuntu-pyenv
-#     https://hub.docker.com/r/molinav/centos-pyenv
-#     https://hub.docker.com/r/molinav/opensuse-pyenv
+#     https://hub.docker.com/r/molinav/pyenv
 #
 # If not running interactively, you must configure the shell manually
 # by calling `. /etc/profile`, which will activate PyEnv and set the

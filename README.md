@@ -1,7 +1,8 @@
 # Docker-PyEnv
 
 This repository creates GNU/Linux Docker images with a specific Python version
-using PyEnv. Current tested base images include [Ubuntu 20.04] and [CentOS 7].
+using PyEnv. Current tested base images include [Ubuntu 20.04], [CentOS 7] and
+[openSUSE 15.3].
 
 
 ## Features
@@ -32,25 +33,17 @@ Below there is a summary table with the preinstalled packages:
 1. Install [Docker](https://www.docker.com/).
 
 2. Download the automated build from the public
-   [Docker Hub Registry](https://registry.hub.docker.com/):
+   [Docker Hub Registry](https://hub.docker.com/) located at
+   [molinav/pyenv](https://hub.docker.com/r/molinav/pyenv).
 
-    * For [Ubuntu 20.04]:
-
-        ```sh
-        docker pull molinav/ubuntu-pyenv
-        ```
-
-    * For [CentOS 7]:
-
-        ```sh
-        docker pull molinav/centos-pyenv
-        ```
 
 ## Usage
 
+Given a Python version `X.Y`:
 ```sh
-docker run --rm -it molinav/ubuntu-pyenv
-docker run --rm -it molinav/centos-pyenv
+docker run --rm -it molinav/pyenv:X.Y-ubuntu-20.04
+docker run --rm -it molinav/pyenv:X.Y-centos-7
+docker run --rm -it molinav/pyenv:X.Y-opensuse-15.3
 ```
 
 If not running interactively, you must configure the shell manually by calling
@@ -65,6 +58,8 @@ Python version.
 https://hub.docker.com/_/ubuntu
 [CentOS 7]:
 https://hub.docker.com/_/centos
+[openSUSE 15.3]:
+https://hub.docker.com/r/opensuse/leap
 [PyEnv]:
 https://github.com/pyenv/pyenv
 [`pip`]:

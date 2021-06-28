@@ -4,10 +4,11 @@
 #
 # Dockerfile to create GNU/Linux containers with a minimal installation
 # of Python environments 2.6+ and 3.2+ through PyEnv. Prebuilt images
-# for Ubuntu 20.04 and CentOS 7 are available at:
+# for Ubuntu 20.04, CentOS 7 and openSUSE 15.3 are available at:
 #
 #     https://hub.docker.com/r/molinav/ubuntu-pyenv
 #     https://hub.docker.com/r/molinav/centos-pyenv
+#     https://hub.docker.com/r/molinav/opensuse-pyenv
 #
 # If not running interactively, you must configure the shell manually
 # by calling `. /etc/profile`, which will activate PyEnv and set the
@@ -40,7 +41,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY scripts /home/scripts
 
 # Install basic dependencies.
-RUN sh /home/scripts/manager install openssl ca-certificates wget git
+RUN sh /home/scripts/manager install openssl ca-certificates wget
+RUN sh /home/scripts/manager install git tar gzip patch
 
 # Install compilers and related tools.
 RUN sh /home/scripts/manager install pkg-config make gcc-full

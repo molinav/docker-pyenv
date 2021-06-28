@@ -19,13 +19,13 @@ _info_os_version() {
 _info_os_package_manager() {
     case "$(_info_os_name)" in
         ubuntu)
-            echo apt-get
+            echo "apt-get"
         ;;
         centos)
-            echo yum
+            echo "yum"
         ;;
-        openSUSE*|SLES)
-            echo zypper
+        opensuse*|sles)
+            echo "zypper"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
@@ -43,6 +43,9 @@ _info_hdf4() {
         centos)
             echo "hdf hdf-devel"
         ;;
+        opensuse*|sles)
+            echo "libhdf4 hdf-devel hdf-devel-static"
+        ;;
         *)
             echo "E:Unknown operating system '$(_info_os_name)'"
             exit 1
@@ -57,7 +60,10 @@ _info_hdf5() {
             echo "libhdf5-103 libhdf5-dev"
         ;;
         centos)
-            echo "hdf5 hdf5-devel"
+            echo "hdf5 hdf5-devel hdf5-static"
+        ;;
+        opensuse*|sles)
+            echo "libhdf5 hdf5-devel hdf5-devel-static"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
@@ -73,7 +79,10 @@ _info_blas() {
             echo "libblas3 libblas-dev"
         ;;
         centos)
-            echo "blas blas-devel"
+            echo "blas blas-devel blas-static"
+        ;;
+        opensuse*|sles)
+            echo "libblas3 blas-devel blas-devel-static"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
@@ -89,7 +98,10 @@ _info_lapack() {
             echo "liblapack3 liblapack-dev"
         ;;
         centos)
-            echo "lapack lapack-devel"
+            echo "lapack lapack-devel lapack-static"
+        ;;
+        opensuse*|sles)
+            echo "liblapack3 lapack-devel lapack-devel-static"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
@@ -105,7 +117,10 @@ _info_netcdf4() {
             echo "libnetcdf15 libnetcdf-dev"
         ;;
         centos)
-            echo "netcdf netcdf-devel"
+            echo "netcdf netcdf-devel netcdf-static"
+        ;;
+        opensuse*|sles)
+            echo "libnetcdf18 netcdf-devel netcdf-devel-static"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
@@ -122,6 +137,9 @@ _info_matplotlib_dev() {
         ;;
         centos)
             echo "freetype-devel libpng-devel"
+        ;;
+        opensuse*|sles)
+            echo "freetype-devel libpng16-devel"
         ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
@@ -154,6 +172,9 @@ _info_gcc_full() {
         centos)
             echo "gcc gcc-c++ gcc-gfortran"
         ;;
+        opensuse*|sles)
+            echo "gcc gcc-c++ gcc-fortran"
+        ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
             exit 1
@@ -170,6 +191,9 @@ _info_pkg_config() {
         centos)
             echo "pkgconfig"
         ;;
+        opensuse*|sles)
+            echo "pkg-config"
+        ;;
         *)
             echo "E: Unknown operating system '$(_info_os_name)'"
             exit 1
@@ -182,15 +206,21 @@ _info_pyenv_dev() {
     case "$(_info_os_name)" in
         ubuntu)
             echo "
-                build-essential llvm libssl-dev tk-dev                        \
-                libncursesw5-dev libreadline-dev libsqlite3-dev               \
-                libffi-dev xz-utils zlib1g-dev libbz2-dev liblzma-dev
+                build-essential llvm tk-dev libncursesw5-dev libreadline-dev  \
+                libsqlite3-dev libffi-dev xz-utils zlib1g-dev libbz2-dev      \
+                liblzma-dev
             " | xargs
         ;;
         centos)
             echo "
-                @development findutils llvm openssl-devel readline-devel      \
-                sqlite-devel libffi-devel xz-devel bzip2-devel zlib-devel
+                @development findutils llvm readline-devel sqlite-devel       \
+                libffi-devel xz-devel bzip2-devel zlib-devel
+            " | xargs
+        ;;
+        opensuse*|sles)
+            echo "
+                automake tk-devel ncurses-devel readline-devel                \
+                sqlite3-devel libffi-devel xz-devel libbz2-devel zlib-devel
             " | xargs
         ;;
         *)

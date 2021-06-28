@@ -9,6 +9,9 @@ build:
 	    done                                                              \
 	else                                                                  \
 	    distro="$(shell echo $(base) | cut -d: -f1)";                     \
+	    if [ "$$distro" = "opensuse/leap" ]; then                         \
+	        distro="opensuse";                                            \
+	    fi;                                                               \
 	    tag="$$distro-pyenv:$(python)";                                   \
 	    echo "Building $$tag...";                                         \
 	    docker build --tag "$$tag" .                                      \
@@ -28,6 +31,9 @@ publish:
 	    user=$$(docker info 2>/dev/null | sed -n '/[ ]*Username:/p'       \
 	            | rev | cut -d' ' -f1 | rev);                             \
 	    distro="$(shell echo $(base) | cut -d: -f1)";                     \
+	    if [ "$$distro" = "opensuse/leap" ]; then                         \
+	        distro="opensuse";                                            \
+	    fi;                                                               \
 	    if [ "$(python)" = "latest" ]; then                               \
 	        latest="$(shell echo $(ALL) | rev | cut -d' ' -f1 | rev)";    \
 	        tag="$$distro-pyenv:$$latest";                                \

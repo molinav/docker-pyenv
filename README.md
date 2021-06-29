@@ -1,13 +1,13 @@
 # Docker-PyEnv
 
 This repository creates GNU/Linux Docker images with a specific Python version
-using PyEnv. Current tested base images include [Ubuntu 20.04], [CentOS 7] and
-[openSUSE 15.3].
+using [PyEnv]. Current tested base images include [Ubuntu 20.04], [CentOS 7]
+and [openSUSE 15.3].
 
 
 ## Features
 
-The additional layers provide the following libraries:
+The images provide the following libraries:
 
 - GCC and GFortran.
 - BLAS and LAPACK.
@@ -30,11 +30,10 @@ Below there is a summary table with the preinstalled packages:
 
 ## Installation
 
-1. Install [Docker](https://www.docker.com/).
+1. Install [Docker].
 
-2. Download the automated build from the public
-   [Docker Hub Registry](https://hub.docker.com/) located at
-   [molinav/pyenv](https://hub.docker.com/r/molinav/pyenv).
+2. Download the automated build from the public [Docker Hub Registry]
+   located at [molinav/pyenv].
 
 
 ## Usage
@@ -74,3 +73,9 @@ https://numpy.org/
 https://scipy.org/
 [`cython`]:
 https://cython.org/
+[Docker]:
+https://www.docker.com/
+[Docker Hub Registry]:
+https://hub.docker.com/
+[molinav/pyenv]:
+https://hub.docker.com/r/molinav/pyenv
